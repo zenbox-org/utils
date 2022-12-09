@@ -1,5 +1,5 @@
 import { Result } from './result'
-import { ensureIsError } from './ensure'
+import { ensureError } from './ensure'
 import { WrappedError } from './error'
 
 export function safeParseJSON(input: string): Result<unknown, Error> {
@@ -11,7 +11,7 @@ export function safeParseJSON(input: string): Result<unknown, Error> {
   } catch (error) {
     return {
       success: false,
-      error: ensureIsError(error),
+      error: ensureError(error),
     }
   }
 }

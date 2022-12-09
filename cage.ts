@@ -1,33 +1,32 @@
-import { isFunction } from 'lodash'
+import { Primitive } from './typescript'
 
-/**
- * @see ErrorBox
- */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Caged = Primitive | object | null | undefined
 
-export type Cage<Value> = Value | (() => Value)
+export type Cage<Value extends Caged> = Value | (() => Value)
 
-export type CageP<Value> = Value | (() => Value) | (() => Promise<Value>)
+export type CageP<Value extends Caged> = Value | (() => Value) | (() => Promise<Value>)
 
-export function uncage<Value>(cage: (() => Value)): Value
+export function uncage<Value extends Caged>(cage: (() => Value)): Value
 
-export function uncage<Value>(cage: Value): Value
+export function uncage<Value extends Caged>(cage: Value): Value
 
-export function uncage<Value>(cage: Cage<Value>) {
-  if (isFunction(cage)) {
+export function uncage<Value extends Caged>(cage: Cage<Value>) {
+  if (typeof cage === 'function') {
     return cage()
   } else {
     return cage
   }
 }
 
-export function uncageP<Value>(cage: (() => Promise<Value>)): Promise<Value>
+export function uncageP<Value extends Caged>(cage: (() => Promise<Value>)): Promise<Value>
 
-export function uncageP<Value>(cage: (() => Value)): Promise<Value>
+export function uncageP<Value extends Caged>(cage: (() => Value)): Promise<Value>
 
-export function uncageP<Value>(cage: Value): Promise<Value>
+export function uncageP<Value extends Caged>(cage: Value): Promise<Value>
 
-export async function uncageP<Value>(cage: CageP<Value>) {
-  if (isFunction(cage)) {
+export async function uncageP<Value extends Caged>(cage: CageP<Value>) {
+  if (typeof cage === 'function') {
     return await cage()
   } else {
     return cage

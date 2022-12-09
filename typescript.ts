@@ -21,3 +21,8 @@ export function getEnumValues<E extends EnumObject>(enumObject: E): EnumObjectEn
 }
 
 export const AlwaysTrueTypeGuard = <Err>(e: Err): e is Err => true
+/**
+ * @see ErrorBox
+ */
+
+export type Primitive = string | number | boolean

@@ -1,5 +1,3 @@
-import { isArray, isBoolean, isNumber, isObject, isString } from 'lodash'
-
 export interface WithOptionalIdentifiers {
   id?: string
   _id?: string
@@ -14,17 +12,20 @@ export function guessObjectIdentifier(object: WithOptionalIdentifiers) {
 }
 
 export function getMoniker(value: unknown) {
-  if (isObject(value)) {
-    if (value === null) {
-      return 'null'
-    } if (isArray(value)) {
-      return `array[${value.length}]`
-    } else {
-      return `object("${guessObjectIdentifier(value)}")`
-    }
-  } if (isNumber(value) || isString(value) || isBoolean(value)) {
-    return `primitive(${value})`
-  } else {
-    return 'value(unknown)'
+  switch (typeof value) {
+    case 'object':
+      if (value === null) {
+        return 'null'
+      } else if (Array.isArray(value)) {
+        return `array[${value.length}]`
+      } else {
+        return `object("${guessObjectIdentifier(value)}")`
+      }
+    case 'boolean':
+    case 'number':
+    case 'string':
+      return `primitive(${value})`
+    default:
+      return 'value(unknown)'
   }
 }

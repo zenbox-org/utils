@@ -1,47 +1,47 @@
-import { identity, isError } from 'lodash'
-import { Cage, CageP, uncage, uncageP } from './cage'
+import { identity } from 'rambdax'
+import { Cage, Caged, CageP, uncage, uncageP } from './cage'
 
-export function ensure<Obj, Err>(object: Obj | null | undefined, error?: Cage<Err>) {
+export function ensure<Obj, Err extends Caged>(object: Obj | null | undefined, error?: Cage<Err>) {
   if (object === null || object === undefined) throw uncage(error ?? getNotFoundError())
   return object
 }
 
-export async function ensureP<Obj, Err>(object: Obj | null | undefined, error?: CageP<Err>) {
+export async function ensureP<Obj, Err extends Caged>(object: Obj | null | undefined, error?: CageP<Err>) {
   if (object === null || object === undefined) throw await uncageP(error ?? getNotFoundError())
   return object
 }
 
-export function ensureFind<Obj, Err>(collection: Obj[], filter: (object: Obj) => boolean, error?: Cage<Err>) {
+export function ensureFind<Obj, Err extends Caged>(collection: Obj[], filter: (object: Obj) => boolean, error?: Cage<Err>) {
   const object = collection.find(filter)
   if (object === null || object === undefined) throw uncage(error ?? getNotFoundErrorForFilter(filter))
   return object
 }
 
-export async function ensureFindP<Obj, Err>(collection: Obj[], filter: (object: Obj) => boolean, error?: CageP<Err>) {
+export async function ensureFindP<Obj, Err extends Caged>(collection: Obj[], filter: (object: Obj) => boolean, error?: CageP<Err>) {
   const object = collection.find(filter)
   if (object === null || object === undefined) throw await uncageP(error ?? getNotFoundErrorForFilter(filter))
   return object
 }
 
-export function ensureMapGet<Key, Value, Err>(map: Map<Key, Value>, key: Key, error?: Cage<Err>) {
+export function ensureMapGet<Key, Value, Err extends Caged>(map: Map<Key, Value>, key: Key, error?: Cage<Err>) {
   return ensure(map.get(key), () => uncage(error) ?? getNotFoundInMapByKeyError(map, key))
 }
 
-export function ensureGet<Key extends string | number | symbol, Value, Err>(record: Record<Key, Value>, key: Key, error?: Cage<Err>) {
+export function ensureGet<Key extends string | number | symbol, Value, Err extends Caged>(record: Record<Key, Value>, key: Key, error?: Cage<Err>) {
   return ensure(record[key], () => uncage(error) ?? getNotFoundInRecordByKeyError(record, key))
 }
 
-export function ensureIndex<Value, Err>(array: Value[], index: number, error?: Cage<Err>) {
+export function ensureIndex<Value, Err extends Caged>(array: Value[], index: number, error?: Cage<Err>) {
   return ensure(array[index], () => uncage(error) ?? getNotFoundInArrayByIndexError(array, index))
 }
 
-export function ensureEvery<Obj, Err>(objects: Array<Obj | null | undefined>, error?: CageP<Err>) {
+export function ensureEvery<Obj, Err extends Caged>(objects: Array<Obj | null | undefined>, error?: CageP<Err>) {
   if (!objects.every(identity)) throw uncage(error ?? new Error(`Some objects are falsy: \n\n${JSON.stringify(objects)}`))
   return objects
 }
 
-export function ensureIsError(e: unknown) {
-  if (isError(e)) {
+export function ensureError(e: unknown) {
+  if (e instanceof Error) {
     return e
   } else {
     throw e
