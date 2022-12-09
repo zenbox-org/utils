@@ -1,4 +1,4 @@
-import { isArray, isBoolean, isNumber, isObject, isString } from 'lodash-es'
+import { isArray, isBoolean, isNumber, isObject, isString } from 'lodash'
 
 export interface WithOptionalIdentifiers {
   id?: string

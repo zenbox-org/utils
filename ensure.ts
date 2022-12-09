@@ -1,4 +1,4 @@
-import { identity, isError } from 'lodash-es'
+import { identity, isError } from 'lodash'
 import { Cage, CageP, uncage, uncageP } from './cage'
 
 export function ensure<Obj, Err>(object: Obj | null | undefined, error?: Cage<Err>) {

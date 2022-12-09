@@ -1,6 +1,6 @@
-// allows to implement partial functions & leave a message for another developer
 import { nail } from './string'
 
+// allows implementing partial functions & leaving a message for another developer
 export function todo<V>(value?: V, message = 'TODO'): V {
   if (value === undefined) throw impl(message)
   return value

@@ -1,4 +1,4 @@
-import { flatten, identity } from 'lodash-es'
+import { flatten, identity } from 'lodash'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { stringify } from './JSON'
 import { getMoniker } from './moniker'
 
 export class CustomError extends Error {
-  public props: object;
+  public props: object
 
   constructor(message: string, props: object) {
     // toString() should take care of displaying a proper message
@@ -57,5 +58,5 @@ export interface WithStack {
 }
 
 export function hasStack(obj: object): obj is WithStack {
-  return Object.hasOwn(obj, 'stack')
+  return 'stack' in obj
 }
