@@ -21,7 +21,7 @@ export async function parallelMapGet<In, Out, Args extends unknown[]>(getter: (.
 
 export async function parallelFlatMap<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out[]>, ...args: Args) {
   const resultsArray = await Promise.all(values.map(value => mapper(value, ...args)))
-  return flatten<Out>(resultsArray)
+  return flatten(resultsArray)
 }
 
 export async function parallelMapIndex<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, index: number, ...args: Args) => Promise<Out>, ...args: Args) {
