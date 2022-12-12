@@ -1,4 +1,4 @@
-import { identity } from 'rambdax'
+import { identity } from 'remeda'
 import { Cage, Caged, CageP, uncage, uncageP } from './cage'
 
 export function ensure<Obj, Err extends Caged>(object: Obj | null | undefined, error?: Cage<Err>) {

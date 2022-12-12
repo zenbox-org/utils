@@ -1,4 +1,4 @@
-import { flatten, identity } from 'rambdax'
+import { flatten, identity } from 'remeda'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
