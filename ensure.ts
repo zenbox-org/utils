@@ -31,7 +31,7 @@ export function ensureGet<Key extends string | number | symbol, Value, Err exten
   return ensure(record[key], () => uncage(error) ?? getNotFoundInRecordByKeyError(record, key))
 }
 
-export function ensureIndex<Value, Err extends Caged>(array: Value[], index: number, error?: Cage<Err>) {
+export function ensureByIndex<Value, Err extends Caged>(array: Value[], index: number, error?: Cage<Err>) {
   return ensure(array[index], () => uncage(error) ?? getNotFoundInArrayByIndexError(array, index))
 }
 
