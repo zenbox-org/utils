@@ -1,5 +1,5 @@
-import { ImplementationError } from '../todo'
 import { expect } from '../chai'
+import { ImplementationError } from '../todo'
 
 /**
  * TODO: BN matchers are not included in `expect` from '../chai'

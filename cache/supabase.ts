@@ -1,5 +1,5 @@
-import { getSupabasePrivate, isSupabaseError, sb } from '../supabase'
 import { Cache } from '../cache'
+import { getSupabasePrivate, isSupabaseError, sb } from '../supabase'
 
 export async function setData<T>(path: string, data: T) {
   const bucket = getSupabasePrivate().storage.from(cacheBucketId)

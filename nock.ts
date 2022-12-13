@@ -1,7 +1,7 @@
-import nock_original, { BackMode } from 'nock'
 import { default as axios } from 'axios'
 // eslint-disable-next-line import/extensions
 import httpAdapter from 'axios/lib/adapters/http'
+import nock_original, { BackMode } from 'nock'
 import { get__dirname } from './node'
 
 nock_original.back.fixtures = get__dirname(import.meta.url) + '/nock'

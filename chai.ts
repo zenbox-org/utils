@@ -1,9 +1,9 @@
+import BigNumber from 'bignumber.js'
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import chaiThings from 'chai-things'
-import chaiSubset from 'chai-subset'
 import chaiBigNumber from 'chai-bignumber'
-import BigNumber from 'bignumber.js'
+import chaiSubset from 'chai-subset'
+import chaiThings from 'chai-things'
 
 chai.use(chaiAsPromised)
 chai.use(chaiThings)

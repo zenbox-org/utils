@@ -1,7 +1,7 @@
-import fs, { FileHandle, mkdir, readFile } from 'fs/promises'
-import { OpenMode, PathLike } from 'fs'
-import { basename } from 'path'
 import { Abortable } from 'events'
+import { OpenMode, PathLike } from 'fs'
+import fs, { FileHandle, mkdir, readFile } from 'fs/promises'
+import { basename } from 'path'
 
 export type Path = string
 

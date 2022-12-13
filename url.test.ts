@@ -1,5 +1,5 @@
-import { expect } from './chai'
 import { test } from '@jest/globals'
+import { expect } from './chai'
 import { getBaseDomain, getBaseDomainFromHostname } from './url'
 
 test(getBaseDomain.name, async function () {

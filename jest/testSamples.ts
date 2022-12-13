@@ -1,6 +1,6 @@
+import { test } from '@jest/globals'
 import { ZodSchema } from 'zod'
 import { expect } from '../chai'
-import { test } from '@jest/globals'
 import { getName } from '../zod'
 
 export function testSamples<Obj>(schema: ZodSchema<Obj>, validSamples: Obj[], invalidSamples: Obj[]) {

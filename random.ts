@@ -1,4 +1,4 @@
-import { Random, default as $random } from 'random'
+import { default as $random, Random } from 'random'
 import seedrandom from 'seedrandom'
 
 export function getRandom(seed: string) {

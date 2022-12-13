@@ -15,14 +15,6 @@ export function toUid<T extends object>(obj: T, ...keys: Array<keyof T>) {
   return pick(obj, keys)
 }
 
-// export function toUidFromSchema<T extends ZodRawShape>(obj: z.infer<ZodObject<T>>, schema: ZodObject<T>) {
-//   return pick(obj, ...Object.keys(schema.shape))
-// }
-
-// export function toUid<T>(array: Array<T>): string {
-//   return JSON.stringify(array)
-// }
-
 export function fromUid<T>(uid: string): T {
   return JSON.parse(uid)
 }

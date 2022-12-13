@@ -1,6 +1,6 @@
-import { expect } from './chai'
-import { test, beforeEach } from '@jest/globals'
+import { beforeEach, test } from '@jest/globals'
 import { Random } from 'random'
+import { expect } from './chai'
 import { getMean, getRandom, getStandardDeviation } from './random'
 import { getLogNormalFromParameters } from './random/logNormal'
 

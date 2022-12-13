@@ -1,6 +1,6 @@
-import { readFile } from 'fs/promises'
 import { parse } from 'dotenv'
 import { PathLike } from 'fs'
+import { readFile } from 'fs/promises'
 import { merge } from 'lodash-es'
 import ProcessEnv = NodeJS.ProcessEnv
 

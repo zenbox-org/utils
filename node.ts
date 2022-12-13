@@ -1,5 +1,5 @@
-import { fileURLToPath, URL } from 'url'
 import { basename } from 'path'
+import { fileURLToPath, URL } from 'url'
 
 export const get__filename = fileURLToPath
 
