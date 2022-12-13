@@ -1,6 +1,6 @@
 import { RefinementCtx, SafeParseReturnType, z, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef } from 'zod'
+import { difference, equals } from 'remeda'
 import { isEqualByD } from './lodash'
-import { difference, isEqual, merge } from 'lodash-es'
 import { byUid, Uid } from './uid'
 import { ensure } from './ensure'
 
@@ -62,7 +62,7 @@ export function getUniqueCountStats<Obj>(objects: Obj[], getUniqueValue: GetUniq
   const stats: Stat[] = []
   return objects.reduce<Stat[]>((stats, value) => {
     const uid = getUniqueValue(value)
-    const index = stats.findIndex(s => isEqual(s.uid, uid))
+    const index = stats.findIndex(s => equals(s.uid, uid))
     if (~index) {
       stats[index].count++
     } else {
@@ -97,10 +97,10 @@ export function getMultiInserter<Output, Def extends ZodTypeDef = ZodTypeDef, In
   return (objects: Array<Input>) => objects.map(inserter)
 }
 
-export function getInserterWithDefaults<Output extends object, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(name: string, schema: ZodType<Output, Def, Input>, getUid: GetUid<Output>, array: Array<Output>, defaults: Partial<Input>) {
-  const doInsert = insert(name)(schema)(getUid)(array)
-  return (object: Input) => doInsert(merge({}, defaults, object))
-}
+// export function getInserterWithDefaults<Output extends object, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(name: string, schema: ZodType<Output, Def, Input>, getUid: GetUid<Output>, array: Array<Output>, defaults: Partial<Input>) {
+//   const doInsert = insert(name)(schema)(getUid)(array)
+//   return (object: Input) => doInsert(merge({}, defaults, object))
+// }
 
 export function getFinder<UidHolder, Output extends UidHolder>(getUid: GetUid<UidHolder>, array: Array<Output>) {
   return function (uidHolder: UidHolder) {

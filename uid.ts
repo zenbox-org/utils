@@ -1,7 +1,5 @@
-import { z, ZodObject } from 'zod'
-import { isEqual, pick } from 'lodash-es'
+import { equals, pick } from 'remeda'
 import { GetUid } from './zod'
-import { ZodRawShape } from 'zod'
 
 // export function toUid<T>(obj: T, map: Record<keyof T, GetUid<T>>) {
 //   return JSON.stringify()
@@ -12,13 +10,14 @@ import { ZodRawShape } from 'zod'
  */
 export type Uid = unknown
 
-export function toUid<T>(obj: T, ...keys: Array<keyof T>) {
-  return pick(obj, ...keys)
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function toUid<T extends object>(obj: T, ...keys: Array<keyof T>) {
+  return pick(obj, keys)
 }
 
-export function toUidFromSchema<T extends ZodRawShape>(obj: z.infer<ZodObject<T>>, schema: ZodObject<T>) {
-  return pick(obj, ...Object.keys(schema.shape))
-}
+// export function toUidFromSchema<T extends ZodRawShape>(obj: z.infer<ZodObject<T>>, schema: ZodObject<T>) {
+//   return pick(obj, ...Object.keys(schema.shape))
+// }
 
 // export function toUid<T>(array: Array<T>): string {
 //   return JSON.stringify(array)
@@ -34,7 +33,7 @@ export function byUid<UidHolder, Obj extends UidHolder>(getUid: GetUid<UidHolder
   return function ($obj: Obj) {
     const $uid = getUid($obj)
     // console.log('$uid', $uid)
-    return isEqual(uid, $uid)
+    return equals(uid, $uid)
   }
 }
 
