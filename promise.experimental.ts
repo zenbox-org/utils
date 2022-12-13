@@ -14,4 +14,4 @@ function parallel_variadic<T extends unknown[]>(promises: readonly [...T]): Prom
   return Promise.all(promises)
 }
 
-export default {}
+export const a = {}
