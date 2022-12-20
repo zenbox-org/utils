@@ -1,11 +1,10 @@
-import { Abortable } from 'events'
 import { OpenMode, PathLike } from 'fs'
 import fs, { FileHandle, mkdir, readFile } from 'fs/promises'
 import { basename } from 'path'
 
 export type Path = string
 
-export async function readFileAsString(path: PathLike | FileHandle, options?: { encoding?: null, flag?: OpenMode } & Abortable | null): Promise<string> {
+export async function readFileAsString(path: PathLike | FileHandle, options?: { encoding?: null | undefined, flag?: OpenMode | undefined } | null): Promise<string> {
   const buffer = await readFile(path, options)
   return buffer.toString()
 }
