@@ -2,6 +2,8 @@ export interface WithToString {
   toString: () => string
 }
 
+export type StringLike = string | WithToString
+
 /**
  * Removes spaces at the beginning of each line (allows to indent multiline strings in code, then remove this indent via `nail()` call)
  * @see ./string.test.ts
@@ -32,4 +34,8 @@ export function replaceInFirstLine(haystack: string, needle: string, replacement
 
 export function getLines(text: string) {
   return text.split('\n')
+}
+
+export function toString(s: StringLike) {
+  return typeof s === 'string' ? s : s.toString()
 }
