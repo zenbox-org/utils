@@ -36,7 +36,7 @@ export function stringifyError(error: Error) {
 /**
  * Useful for avoiding the serialization issues with data types that are not directly serializable (e.g. Date)
  */
-export function restringify(value: unknown) {
+export function restringify(value: unknown): unknown {
   return JSON.parse(JSON.stringify(value))
 }
 
