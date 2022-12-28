@@ -4,7 +4,7 @@
  * @param value
  */
 export function ensureEnvVar(name: string, value: string | undefined) {
-  if (!value) throw new Error(`process.env.${name} is required`)
+  if (!value) throw new Error(`process.env.${name} is required. If you're using Next.js, prefix the var with "NEXT_PUBLIC_" to make it available on the frontend.`)
   return value
 }
 
