@@ -33,6 +33,8 @@ export function stringifyError(error: Error) {
   return JSON.stringify(error, Object.getOwnPropertyNames(error), 2)
 }
 
+export function restringify(value: Record<string, unknown>): Record<string, unknown>
+
 /**
  * Useful for avoiding the serialization issues with data types that are not directly serializable (e.g. Date)
  */
