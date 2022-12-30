@@ -48,6 +48,6 @@ export function byDate(a: WithDate, b: WithDate) {
   return a.date.getTime() - b.date.getTime()
 }
 
-export function toSeconds(date: Date) {
-  return Math.trunc(date.getTime() / 1000)
-}
+export const toSecondsN = (timestamp: number) => Math.trunc(timestamp / 1000)
+
+export const toSeconds = (date: Date) => toSecondsN(date.getTime())
