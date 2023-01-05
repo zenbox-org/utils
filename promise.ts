@@ -5,9 +5,8 @@ export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], ma
   return Promise.all(values.map(value => mapper(value, ...args)))
 }
 
-export async function parallelMapEvery<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
-  const results = await parallelMap(values, mapper, ...args)
-  return results.every(identity)
+export async function parMap<In, Out, Args extends unknown[]>(mapper: (value: In, ...args: Args) => Promise<Out>, values: In[], ...args: Args) {
+  return parallel(values.map(value => mapper(value, ...args)))
 }
 
 export async function parallelMap<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
@@ -26,6 +25,11 @@ export async function parallelFlatMap<In, Out, Args extends unknown[]>(values: I
 
 export async function parallelMapIndex<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, index: number, ...args: Args) => Promise<Out>, ...args: Args) {
   return parallel(values.map((value, index) => mapper(value, index, ...args)))
+}
+
+export async function parallelMapEvery<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
+  const results = await parallelMap(values, mapper, ...args)
+  return results.every(identity)
 }
 
 export async function sequentialMap<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
