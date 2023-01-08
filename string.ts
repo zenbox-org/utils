@@ -1,3 +1,5 @@
+import { stringify } from './JSON'
+
 export interface WithToString {
   toString: () => string
 }
@@ -36,6 +38,8 @@ export function getLines(text: string) {
   return text.split('\n')
 }
 
-export function toString(s: StringLike) {
-  return typeof s === 'string' ? s : s.toString()
+export function toString(s: string | WithToString | object) {
+  if (typeof s === 'string') return s
+  if ('toString' in s && typeof s.toString === 'function') return s.toString()
+  return stringify(s)
 }
