@@ -1,11 +1,11 @@
 import { getBooleanEnvVar } from './process'
 import $debug from 'debug'
-import { realname } from './filesystem'
+import { getRealName } from './filesystem'
 
 export const isEnabledLog = getBooleanEnvVar('LOG', process.env.LOG)
 
 export function getDebug(filename: string) {
-  return $debug('app').extend(realname(filename))
+  return $debug('app').extend(getRealName(filename))
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
