@@ -3,22 +3,14 @@ import { BigNumber } from './bignumber'
 
 const ten = new BigNumber(10)
 
-export function toBackendAmount(amount: BigNumber.Value, decimals: BigNumber.Value): BigNumber {
-  // return BigNumber.from(amount * Math.pow(10, decimals))
-  // return parseUnits(amount.toFixed(decimals), decimals)
-  return ten.pow(decimals).multipliedBy(amount)
-}
+export const toFrontendAmountBigNumD = (decimals: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).dividedBy(ten.pow(decimals))
 
-export function toBackendAmountBN(amount: BigNumber.Value, decimals: BigNumber.Value): BN {
-  return BN.from(toBackendAmount(amount, decimals).toFixed())
-}
+export const toRoundedAmountBigNumD = (decimals: BigNumber.Value, roundingPlaces: number, roundingMode?: BigNumber.RoundingMode) => (amount: BigNumber.Value) => toFrontendAmountBigNumD(decimals)(amount).toFixed(roundingPlaces, roundingMode)
 
-export function toFrontendAmount(amount: BigNumber.Value, decimals: BigNumber.Value): BigNumber {
-  return new BigNumber(amount).dividedBy(ten.pow(decimals))
-}
+export const toBackendAmountBigNumD = (decimals: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).multipliedBy(ten.pow(decimals))
 
-export function toFrontendAmountBN(amount: BNLike, decimals: BigNumber.Value): BigNumber {
-  return toFrontendAmount(amount.toString(), decimals)
-}
+export const toFrontendAmountBND = (decimals: BNLike) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString())
 
-export const toEthString = (amount: BNLike) => toFrontendAmountBN(amount, 18).toString()
+export const toRoundedAmountBND = (decimals: BNLike, roundingPlaces: number, roundingMode?: BigNumber.RoundingMode) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString()).toFixed(roundingPlaces, roundingMode)
+
+export const toBackendAmountBND = (decimals: BNLike) => (amount: BigNumber.Value) => BN.from(toBackendAmountBigNumD(decimals.toString())(amount).toFixed())
