@@ -48,6 +48,10 @@ export function ensureError(e: unknown) {
   }
 }
 
+export const ensureMin = (min: number) => (value: number) => value > min ? value : min
+
+export const ensureMax = (max: number) => (value: number) => value < max ? value : max
+
 export const getNotFoundError = () => new Error('Can\'t find object in collection')
 
 export const getNotFoundErrorForFilter = <Obj>(filter: (object: Obj) => boolean) => new Error('Can\'t find an object in a collection using filter: ' + filter.toString())
