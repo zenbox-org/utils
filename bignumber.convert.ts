@@ -21,6 +21,10 @@ export const toRenderedAmountBND = (decimals: BNLike) => (amount: BNLike) => toF
 
 export const withSign = (renderer: BNRenderer) => (amount: BNLike) => (BN.from(amount).isNegative() ? '' : '+') + renderer(amount)
 
+export const withSuffix = (suffix: string) => (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + suffix
+
+export const asPercent = (renderer: BNRenderer) => (amount: BNLike) => renderer(BN.from(amount).mul(100)) + '%'
+
 export const withLessThan = (renderer: BNRenderer) => (amount: BNLike) => {
   const result = renderer(amount)
   return result.match(/^[+-]?0\.0+$/) ? '~' + result : result
