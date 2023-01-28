@@ -3,18 +3,19 @@
  * @param name
  * @param value
  */
-export function ensureEnvVar(name: string, value: string | undefined) {
-  if (!value) throw new Error(`process.env.${name} is required. If you're running Next.js code on the client, prefix the var with "NEXT_PUBLIC_" to make it available on the frontend.`)
-  return value
+export function ensureEnvVar(name: string, value: string | undefined, $default?: string) {
+  const $value = value || $default
+  if ($value) return $value
+  throw new Error(`process.env.${name} is required. If you're running Next.js code on the client, prefix the var with "NEXT_PUBLIC_" to make it available on the frontend.`)
 }
 
-export function getArrayEnvVar(name: string, value: string | undefined): string[] {
-  const valuesAsString = ensureEnvVar(name, value)
+export function getArrayEnvVar(name: string, value: string | undefined, $default?: string): string[] {
+  const valuesAsString = ensureEnvVar(name, value, $default)
   return valuesAsString.split(',')
 }
 
-export function getNonEmptyArrayEnvVar(name: string, value: string | undefined): [string, ...string[]] {
-  const values = getArrayEnvVar(name, value)
+export function getNonEmptyArrayEnvVar(name: string, value: string | undefined, $default?: string): [string, ...string[]] {
+  const values = getArrayEnvVar(name, value, $default)
   if (!values.length) throw new Error(`process.env.${name} must be a comma-separated list with at least one element`)
   const first = values[0]
   const rest = values.slice(1)
@@ -23,5 +24,5 @@ export function getNonEmptyArrayEnvVar(name: string, value: string | undefined):
 
 export function getBooleanEnvVar(name: string, value: string | undefined): boolean {
   const $value = value ? value.toLowerCase() : ''
-  return ['t', 'y', 'true', 'yes', '1'].includes($value)
+  return ['true', 'yes', 't', 'y', '1'].includes($value)
 }
