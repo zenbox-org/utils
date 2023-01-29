@@ -33,7 +33,7 @@ export class WrappedError extends Error {
   /**
    * All public properties are displayed automatically when the error is stringified
    */
-  constructor(public message: string, props: object, public error: Error) {
+  constructor(public message: string, public props: object, public error: Error) {
     super(message)
   }
 }

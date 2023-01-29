@@ -1,8 +1,16 @@
-import { flatten, identity } from 'remeda'
+import { flatten, identity, range } from 'remeda'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
   return Promise.all(values.map(value => mapper(value, ...args)))
+}
+
+export async function mapIndexAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, index: number, ...args: Args) => Promise<Out>, ...args: Args) {
+  return Promise.all(values.map((value, index) => mapper(value, index, ...args)))
+}
+
+export async function repeatAsync<Out, Args extends unknown[]>(count: number, mapper: (index: number, ...args: Args) => Promise<Out>, ...args: Args) {
+  return mapAsync(range(0, count), mapper, ...args)
 }
 
 export async function parMap<In, Out, Args extends unknown[]>(mapper: (value: In, ...args: Args) => Promise<Out>, values: In[], ...args: Args) {
