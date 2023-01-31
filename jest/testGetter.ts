@@ -1,7 +1,7 @@
 import { test } from '@jest/globals'
 import { identity } from 'lodash-es'
+import { Mapper } from '../../generic/models/Mapper'
 import { expect } from '../chai'
-import { Mapper } from '../lodash'
 
 export function testEqual<Val, Actual>(getter: () => Val, actual: Actual, mapper: Mapper<Val, Actual> = identity) {
   test(normalize(getter.name), function () {

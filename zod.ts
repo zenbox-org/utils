@@ -92,6 +92,7 @@ export const insert = (name: string) => <Output, Def extends ZodTypeDef = ZodTyp
     array.push($object)
     return $object
   } catch (error) {
+    console.log('\"throw\"', 'throw')
     throw { object, error }
   }
 }

@@ -1,3 +1,5 @@
+import { string2boolean } from './conversion'
+
 /**
  * Next.js inlines `process.env.VAR_NAME` during build, so they must be passed directly
  * @param name
@@ -22,7 +24,6 @@ export function getNonEmptyArrayEnvVar(name: string, value: string | undefined, 
   return [first, ...rest]
 }
 
-export function getBooleanEnvVar(name: string, value: string | undefined): boolean {
-  const $value = value ? value.toLowerCase() : ''
-  return ['true', 'yes', 't', 'y', '1'].includes($value)
+export function getBooleanEnvVar(name: string, value: string | undefined) {
+  return string2boolean(value || '')
 }

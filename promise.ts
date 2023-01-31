@@ -1,4 +1,5 @@
 import { flatten, identity, range } from 'remeda'
+import { MutatorVP } from '../generic/models/Mutator'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
@@ -62,6 +63,27 @@ export async function parallelMapAsyncGen<In, Out, Args extends unknown[]>(value
     promises.push(mapper(value, ...args))
   }
   return parallel(promises)
+}
+
+/**
+ * Map multiple mutators over a single value
+ */
+export const sequentialReduce = <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (value: Val) => {
+  return mutators.reduce<Promise<Val>>(async ($value, mutator) => {
+    return mutator(await $value, ...args)
+  }, Promise.resolve(value))
+}
+
+export const parSeqMap = (isDepthFirst: boolean) => <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (values: Val[]) => {
+  if (isDepthFirst) {
+    return sequentialMap(values, value => {
+      return sequentialReduce(mutators, ...args)(value)
+    })
+  } else {
+    return sequentialMap(mutators, mutator => {
+      return parallelMap(values, mutator, ...args)
+    })
+  }
 }
 
 export function parallel<A, M, K, N, P, D, G, C, O, L, Q, R>(promises: [Promise<A>, Promise<M>, Promise<K>, Promise<N>, Promise<P>, Promise<D>, Promise<G>, Promise<C>, Promise<O>, Promise<L>, Promise<Q>, Promise<R>]): Promise<[A, M, K, N, P, D, G, C, O, L, Q, R]>;
