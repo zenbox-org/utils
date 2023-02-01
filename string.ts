@@ -1,4 +1,5 @@
 import { stringify } from './JSON'
+import { callMB } from '../generic/models/Mapper/callMB'
 
 export interface WithToString {
   toString: () => string
@@ -18,6 +19,8 @@ export function nail(str: string) {
     return str
   }
 }
+
+export const nailMB = callMB(nail)
 
 export function adjust(str: string) {
   return nail(str).trim()

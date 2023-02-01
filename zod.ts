@@ -1,8 +1,10 @@
 import { difference, equals, isFunction } from 'remeda'
-import { RefinementCtx, SafeParseReturnType, z, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef } from 'zod'
+import { RefinementCtx, SafeParseReturnType, z, ZodArray, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef } from 'zod'
 import { ensure } from './ensure'
 import { isEqualByD } from './lodash'
 import { byUid, Uid } from './uid'
+import { ArrayCardinality } from 'zod/lib/types'
+import { stringify } from './JSON'
 
 export interface ZodFlatError {
   formErrors: string[];
@@ -33,6 +35,7 @@ export type GetUniqueValue<Obj> = (object: Obj) => unknown
 function getSchemaDescription<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodType<Output, Def, Input>) {
   return ensure(schema.description, () => {
     let schemaIdentifier: string
+    console.log('schema', stringify(schema))
     if ('shape' in schema._def && isFunction(schema._def.shape)) {
       schemaIdentifier = JSON.stringify(schema._def.shape())
     } else {
@@ -43,7 +46,19 @@ function getSchemaDescription<Output, Def extends ZodTypeDef = ZodTypeDef, Input
 }
 
 export function getArraySchema<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodSchema<Output, Def, Input>, getUniqueValue: GetUniqueValue<Output>) {
-  return z.array(schema).superRefine(getDuplicatesRefinement(getSchemaDescription(schema), getUniqueValue))
+  const $description = getSchemaDescription(schema) + 'Array'
+  const $schema = z.array(schema).describe($description)
+  return withDuplicatesRefinement($schema, getUniqueValue)
+}
+
+export function getNonEmptyArraySchema<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodSchema<Output, Def, Input>, getUniqueValue: GetUniqueValue<Output>) {
+  const $description = getSchemaDescription(schema) + 'NonEmptyArray'
+  const $schema = z.array(schema).nonempty().describe($description)
+  return withDuplicatesRefinement($schema, getUniqueValue)
+}
+
+export function withDuplicatesRefinement<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output, Cardinality extends ArrayCardinality = 'many'>(schema: ZodArray<ZodSchema<Output, Def, Input>, Cardinality>, getUniqueValue: GetUniqueValue<Output>) {
+  return schema.superRefine(getDuplicatesRefinement(getSchemaDescription(schema), getUniqueValue))
 }
 
 export function getDuplicatesRefinement<Obj>(name: string, getUniqueValue: GetUniqueValue<Obj>) {
