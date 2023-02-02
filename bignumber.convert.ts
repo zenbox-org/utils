@@ -13,6 +13,8 @@ export const toRoundedAmountBigNumD = (decimals: BigNumber.Value, roundingPlaces
 
 export const toBackendAmountBigNumD = (decimals: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).multipliedBy(ten.pow(decimals))
 
+export const toRoundedAmountBigNum = (roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber.Value) => new BigNumber(amount).toFixed(roundingPlaces, roundingMode)
+
 export const toFrontendAmountBND = (decimals: BNLike) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString())
 
 export const toFrontendAmountBNS = (scale: BNLike) => (amount: BNLike) => toFrontendAmountBigNumS(scale.toString())(amount.toString())
@@ -36,4 +38,8 @@ export const withLessThan = (renderer: BNRenderer) => (amount: BNLike) => {
   return result.match(/^[+-]?0\.0+$/) ? '~' + result : result
 }
 
-export const withRoundingMarker = (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + '…'
+export const withRoundingMarker = (marker: string) => (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + marker
+
+export const withRoundingMarkerE = withRoundingMarker('…')
+
+export const withRoundingMarkerP = withRoundingMarker('+')
