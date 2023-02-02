@@ -1,44 +1,46 @@
-import { BN, BNLike } from '../bn'
+import { BN } from '../bn'
 import { BigNumber } from './bignumber'
 
-export type BNRenderer = (amount: BNLike) => string
+export type BNRenderer = (amount: BN) => string
 
 const ten = new BigNumber(10)
 
-export const toFrontendAmountBigNumS = (scale: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).dividedBy(scale)
+const bn2num = (n: BN) => new BigNumber(n.toString())
 
-export const toFrontendAmountBigNumD = (decimals: BigNumber.Value) => toFrontendAmountBigNumS(ten.pow(decimals))
+export const toFrontendAmountBigNumS = (scale: BigNumber) => (amount: BigNumber) => amount.dividedBy(scale)
 
-export const toRoundedAmountBigNumD = (decimals: BigNumber.Value, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber.Value) => toFrontendAmountBigNumD(decimals)(amount).toFixed(roundingPlaces, roundingMode)
+export const toFrontendAmountBigNumD = (decimals: BigNumber) => toFrontendAmountBigNumS(ten.pow(decimals))
 
-export const toBackendAmountBigNumD = (decimals: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).multipliedBy(ten.pow(decimals))
+export const toRoundedAmountBigNumD = (decimals: BigNumber, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber) => toFrontendAmountBigNumD(decimals)(amount).toFixed(roundingPlaces, roundingMode)
 
-export const toRoundedAmountBigNum = (roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber.Value) => new BigNumber(amount).toFixed(roundingPlaces, roundingMode)
+export const toBackendAmountBigNumD = (decimals: BigNumber) => (amount: BigNumber) => new BigNumber(amount).multipliedBy(ten.pow(decimals))
 
-export const toFrontendAmountBND = (decimals: BNLike) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString())
+export const toRoundedAmountBigNum = (roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber) => new BigNumber(amount).toFixed(roundingPlaces, roundingMode)
 
-export const toFrontendAmountBNS = (scale: BNLike) => (amount: BNLike) => toFrontendAmountBigNumS(scale.toString())(amount.toString())
+export const toFrontendAmountBND = (decimals: BN) => (amount: BN) => toFrontendAmountBigNumD(bn2num(decimals))(bn2num(amount))
 
-export const toRoundedAmountBND = (decimals: BNLike, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString()).toFixed(roundingPlaces, roundingMode)
+export const toFrontendAmountBNS = (scale: BN) => (amount: BN) => toFrontendAmountBigNumS(bn2num(scale))(bn2num(amount))
 
-export const toBackendAmountBND = (decimals: BNLike) => (amount: BigNumber.Value) => BN.from(toBackendAmountBigNumD(decimals.toString())(amount).toFixed())
+export const toRoundedAmountBND = (decimals: BN, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BN) => toFrontendAmountBigNumD(bn2num(decimals))(bn2num(amount)).toFixed(roundingPlaces, roundingMode)
 
-export const toRenderedAmountBND = (decimals: BNLike) => (amount: BNLike) => toFrontendAmountBND(decimals)(amount).toFixed()
+export const toBackendAmountBND = (decimals: BN) => (amount: BigNumber) => BN.from(toBackendAmountBigNumD(bn2num(decimals))(amount).toFixed())
 
-export const toRenderedAmountBNS = (scale: BNLike) => (amount: BNLike) => toFrontendAmountBNS(scale)(amount).toFixed()
+export const toRenderedAmountBND = (decimals: BN) => (amount: BN) => toFrontendAmountBND(decimals)(amount).toFixed()
 
-export const withSign = (renderer: BNRenderer) => (amount: BNLike) => (BN.from(amount).isNegative() ? '' : '+') + renderer(amount)
+export const toRenderedAmountBNS = (scale: BN) => (amount: BN) => toFrontendAmountBNS(scale)(amount).toFixed()
 
-export const withSuffix = (suffix: string) => (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + suffix
+export const withSign = (renderer: BNRenderer) => (amount: BN) => (BN.from(amount).isNegative() ? '' : '+') + renderer(amount)
 
-export const asPercent = (renderer: BNRenderer) => (amount: BNLike) => renderer(BN.from(amount).mul(100)) + '%'
+export const withSuffix = (suffix: string) => (renderer: BNRenderer) => (amount: BN) => renderer(amount) + suffix
 
-export const withLessThan = (renderer: BNRenderer) => (amount: BNLike) => {
+export const asPercent = (renderer: BNRenderer) => (amount: BN) => renderer(BN.from(amount).mul(100)) + '%'
+
+export const withLessThan = (renderer: BNRenderer) => (amount: BN) => {
   const result = renderer(amount)
   return result.match(/^[+-]?0\.0+$/) ? '~' + result : result
 }
 
-export const withRoundingMarker = (marker: string) => (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + marker
+export const withRoundingMarker = (marker: string) => (renderer: BNRenderer) => (amount: BN) => renderer(amount) + marker
 
 export const withRoundingMarkerE = withRoundingMarker('…')
 
