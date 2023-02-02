@@ -9,7 +9,7 @@ export const toFrontendAmountBigNumS = (scale: BigNumber.Value) => (amount: BigN
 
 export const toFrontendAmountBigNumD = (decimals: BigNumber.Value) => toFrontendAmountBigNumS(ten.pow(decimals))
 
-export const toRoundedAmountBigNumD = (decimals: BigNumber.Value, roundingPlaces: number, roundingMode?: BigNumber.RoundingMode) => (amount: BigNumber.Value) => toFrontendAmountBigNumD(decimals)(amount).toFixed(roundingPlaces, roundingMode)
+export const toRoundedAmountBigNumD = (decimals: BigNumber.Value, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BigNumber.Value) => toFrontendAmountBigNumD(decimals)(amount).toFixed(roundingPlaces, roundingMode)
 
 export const toBackendAmountBigNumD = (decimals: BigNumber.Value) => (amount: BigNumber.Value) => new BigNumber(amount).multipliedBy(ten.pow(decimals))
 
@@ -17,7 +17,7 @@ export const toFrontendAmountBND = (decimals: BNLike) => (amount: BNLike) => toF
 
 export const toFrontendAmountBNS = (scale: BNLike) => (amount: BNLike) => toFrontendAmountBigNumS(scale.toString())(amount.toString())
 
-export const toRoundedAmountBND = (decimals: BNLike, roundingPlaces: number, roundingMode?: BigNumber.RoundingMode) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString()).toFixed(roundingPlaces, roundingMode)
+export const toRoundedAmountBND = (decimals: BNLike, roundingPlaces: number, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_HALF_DOWN) => (amount: BNLike) => toFrontendAmountBigNumD(decimals.toString())(amount.toString()).toFixed(roundingPlaces, roundingMode)
 
 export const toBackendAmountBND = (decimals: BNLike) => (amount: BigNumber.Value) => BN.from(toBackendAmountBigNumD(decimals.toString())(amount).toFixed())
 
@@ -36,4 +36,4 @@ export const withLessThan = (renderer: BNRenderer) => (amount: BNLike) => {
   return result.match(/^[+-]?0\.0+$/) ? '~' + result : result
 }
 
-export const withRoundingMarker = (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + 'X'
+export const withRoundingMarker = (renderer: BNRenderer) => (amount: BNLike) => renderer(amount) + '…'
