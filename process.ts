@@ -2,17 +2,15 @@ import { string2boolean } from './conversion'
 
 /**
  * Next.js inlines `process.env.VAR_NAME` during build, so they must be passed directly
- * @param name
- * @param value
  */
-export function ensureEnvVar(name: string, value: string | undefined, $default?: string) {
+export function getEnvVar(name: string, value: string | undefined, $default?: string) {
   const $value = value || $default
   if ($value) return $value
   throw new Error(`process.env.${name} is required. If you're running Next.js code on the client, prefix the var with "NEXT_PUBLIC_" to make it available on the frontend.`)
 }
 
 export function getArrayEnvVar(name: string, value: string | undefined, $default?: string): string[] {
-  const valuesAsString = ensureEnvVar(name, value, $default)
+  const valuesAsString = getEnvVar(name, value, $default)
   return valuesAsString.split(',')
 }
 
