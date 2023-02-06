@@ -14,6 +14,8 @@ export const getEnvVar = <T>(mapper: Mapper<string, T>) => ($name: string, $valu
 
 export const getStringEnvVar = getEnvVar(identity)
 
+export const fetchStringEnvVar = ($name: string, $value: string | undefined) => getStringEnvVar($name, $value, '')
+
 export const getBooleanEnvVar = getEnvVar(string2boolean)
 
 export const fetchBooleanEnvVar = ($name: string, $value: string | undefined) => getBooleanEnvVar($name, $value, false)
