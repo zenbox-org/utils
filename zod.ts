@@ -4,7 +4,6 @@ import { ensure } from './ensure'
 import { isEqualByD } from './lodash'
 import { byUid, Uid } from './uid'
 import { ArrayCardinality } from 'zod/lib/types'
-import { stringify } from './JSON'
 
 export interface ZodFlatError {
   formErrors: string[];
@@ -35,7 +34,7 @@ export type GetUniqueValue<Obj> = (object: Obj) => unknown
 function getSchemaDescription<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodType<Output, Def, Input>) {
   return ensure(schema.description, () => {
     let schemaIdentifier: string
-    console.log('schema', stringify(schema))
+    // console.log('schema', stringify(schema))
     if ('shape' in schema._def && isFunction(schema._def.shape)) {
       schemaIdentifier = JSON.stringify(schema._def.shape())
     } else {
@@ -107,7 +106,6 @@ export const insert = (name: string) => <Output, Def extends ZodTypeDef = ZodTyp
     array.push($object)
     return $object
   } catch (error) {
-    console.log('\"throw\"', 'throw')
     throw { object, error }
   }
 }
