@@ -1,7 +1,7 @@
-import { string2array, string2boolean } from './conversion'
-import { Mapper } from '../generic/models/Mapper'
 import { identity } from 'remeda'
+import { Mapper } from '../generic/models/Mapper'
 import { NonEmptyArray } from './array/types'
+import { string2array, string2boolean } from './conversion'
 
 /**
  * Next.js inlines `process.env.VAR_NAME` during build, so they must be passed directly
@@ -15,6 +15,8 @@ export const getEnvVar = <T>(mapper: Mapper<string, T>) => ($name: string, $valu
 export const getStringEnvVar = getEnvVar(identity)
 
 export const getBooleanEnvVar = getEnvVar(string2boolean)
+
+export const fetchBooleanEnvVar = ($name: string, $value: string | undefined) => getBooleanEnvVar($name, $value, false)
 
 export const getArrayEnvVar = getEnvVar(string2array)
 
