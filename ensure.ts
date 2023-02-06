@@ -52,6 +52,8 @@ export const ensureMin = (min: number) => (value: number) => value > min ? value
 
 export const ensureMax = (max: number) => (value: number) => value < max ? value : max
 
+export const ensureMinMax = (min: number, max: number) => (value: number) => ensureMin(min)(ensureMax(max)(value))
+
 export const getNotFoundError = () => new Error('Can\'t find object in collection')
 
 export const getNotFoundErrorForFilter = <Obj>(filter: (object: Obj) => boolean) => new Error('Can\'t find an object in a collection using filter: ' + filter.toString())
