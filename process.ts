@@ -8,7 +8,7 @@ import { NonEmptyArray } from './array/types'
  */
 export const getEnvVar = <T>(mapper: Mapper<string, T>) => ($name: string, $value: string | undefined, $default?: T): T => {
   if ($value) return mapper($value)
-  if ($default) return $default
+  if ($default !== undefined) return $default
   throw new Error(`process.env.${$name} is required. If you're running Next.js code on the client, prefix the var with "NEXT_PUBLIC_" to make it available on the frontend.`)
 }
 

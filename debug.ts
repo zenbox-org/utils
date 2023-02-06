@@ -2,7 +2,7 @@ import { getBooleanEnvVar } from './process'
 import $debug from 'debug'
 import { getRealName } from './filesystem'
 
-export const isEnabledLog = getBooleanEnvVar('LOG', process.env.LOG)
+export const isEnabledLog = getBooleanEnvVar('LOG', process.env.LOG, false)
 
 export function getDebug(filename: string) {
   return $debug('app').extend(getRealName(filename))
