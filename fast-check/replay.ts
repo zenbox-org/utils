@@ -2,6 +2,7 @@ import { Parameters } from 'fast-check'
 import { CommandsContraints } from 'fast-check/lib/types/check/model/commands/CommandsContraints'
 import { existsSync } from 'fs'
 import { requireUncached } from '../require'
+import { fetchBooleanEnvVar } from '../process'
 
 export const REPLAY_PARAMETERS_PATH = `${process.cwd()}/replay.cjs`
 
@@ -10,18 +11,19 @@ export type AssertReplayParameters = Pick<Parameters, 'seed' | 'path' | 'endOnFa
 export type CommandsReplayParameters = Pick<CommandsContraints, 'replayPath'>
 
 export type ReplayParameters = {
-  assertParameters: AssertReplayParameters
-  commandsParameters: CommandsReplayParameters
+  assert: AssertReplayParameters
+  commands: CommandsReplayParameters
 }
 
 export function getAssertReplayParameters(): AssertReplayParameters {
-  return getReplayParameters().assertParameters
+  return getReplayParameters().assert
 }
 
 export function getCommandsReplayParameters(): CommandsReplayParameters {
-  return getReplayParameters().commandsParameters
+  return getReplayParameters().commands
 }
 
 export function getReplayParameters(): ReplayParameters {
-  return process.env.CI ? {} : (existsSync(REPLAY_PARAMETERS_PATH) ? requireUncached(REPLAY_PARAMETERS_PATH) : {})
+  const shouldReplay = fetchBooleanEnvVar('REPLAY', process.env.REPLAY)
+  return shouldReplay ? (existsSync(REPLAY_PARAMETERS_PATH) ? requireUncached(REPLAY_PARAMETERS_PATH) : {}) : {}
 }

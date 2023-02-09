@@ -41,3 +41,5 @@ export function minimax(num: BigNumber, min: BigNumber, max: BigNumber) {
   if (!min.lte(max)) throw new Error('min must be less than or equal than max')
   return BigNumber.maximum(min, BigNumber.minimum(max, num))
 }
+
+export const bigint2bignum = ($quoteDelta: bigint) => num($quoteDelta.toString())

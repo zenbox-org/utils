@@ -25,8 +25,8 @@ export function parseJSON(input: string) {
   }
 }
 
-export function stringify(value: unknown) {
-  return JSON.stringify(value, null, 2)
+export function stringify(value: unknown, replacer?: (this: unknown, key: string, value: unknown) => unknown) {
+  return JSON.stringify(value, replacer, 2)
 }
 
 export function stringifyError(error: Error) {

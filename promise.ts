@@ -1,6 +1,7 @@
-import { flatten, identity, range } from 'remeda'
-import { MutatorVP } from '../generic/models/Mutator'
+import { flatten, identity, last, range } from 'remeda'
+import { MutatorV, MutatorVP } from '../generic/models/Mutator'
 import { AlwaysTrueTypeGuard } from './typescript'
+import { NonEmptyArray } from './array/types'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
   return Promise.all(values.map(value => mapper(value, ...args)))
@@ -68,16 +69,29 @@ export async function parallelMapAsyncGen<In, Out, Args extends unknown[]>(value
 /**
  * Map multiple mutators over a single value
  */
-export const sequentialReduce = <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (value: Val) => {
+export const sequentialReduce = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
+  return mutators.reduce<Val>(($value, mutator) => {
+    return mutator($value, ...args)
+  }, value)
+}
+
+export const sequentialReducePush = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
+  const initial: NonEmptyArray<Val> = [value]
+  return mutators.reduce<NonEmptyArray<Val>>((values: NonEmptyArray<Val>, mutator): NonEmptyArray<Val> => {
+    return [...values, mutator(last(values), ...args)]
+  }, initial)
+}
+
+export const sequentialReduceP = <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (value: Val) => {
   return mutators.reduce<Promise<Val>>(async ($value, mutator) => {
     return mutator(await $value, ...args)
   }, Promise.resolve(value))
 }
 
-export const parSeqMap = (isDepthFirst: boolean) => <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (values: Val[]) => {
+export const parSeqMapP = (isDepthFirst: boolean) => <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (values: Val[]) => {
   if (isDepthFirst) {
     return sequentialMap(values, value => {
-      return sequentialReduce(mutators, ...args)(value)
+      return sequentialReduceP(mutators, ...args)(value)
     })
   } else {
     return sequentialMap(mutators, mutator => {

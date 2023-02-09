@@ -15,6 +15,7 @@ export function debug(filename: string, func: Function, ...args: [unknown, ...un
 }
 
 export function peek<Data>(label: string, data: Data) {
+  // eslint-disable-next-line no-console
   console.log(label, data)
   return data
 }

@@ -41,8 +41,13 @@ export function getLines(text: string) {
   return text.split('\n')
 }
 
-export function toString(s: string | WithToString | object) {
+type Stringifiable = string | bigint | WithToString | object
+
+export function toString(s: Stringifiable) {
   if (typeof s === 'string') return s
-  if ('toString' in s && typeof s.toString === 'function') return s.toString()
+  if (typeof s === 'bigint') return s.toString()
+  if (typeof s === 'object' && 'toString' in s && typeof s.toString === 'function') return s.toString()
   return stringify(s)
 }
+
+export const toStringA = (s: Stringifiable[]) => s.map(toString)

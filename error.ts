@@ -2,25 +2,29 @@
 import { stringify } from './JSON'
 import { getMoniker } from './moniker'
 
-export class CustomError extends Error {
-  public props: object
-
-  constructor(message: string, props: object) {
+export class CustomError<T> extends Error {
+  constructor(public message: string, public props: T) {
     // toString() should take care of displaying a proper message
     super(message)
     // assign props after message, so that the message is displayed first in toString()
     this.props = props
-
-    // super(message + ' ' + stringify(props))
-    // this._message = message
-    // this._props = props
   }
 
-  toJSONProps() {
-    return stringify(this.props)
+  toJSONProps(replacer?: (this: unknown, key: string, value: unknown) => unknown) {
+    return stringify(this.props, replacer)
   }
 
   // NOTE: Don't redefine toJSON() as `return stringifyError(this)`, because this leads to infinite recursion
+}
+
+export class AssertionFailedError<T> extends CustomError<T> {
+  constructor(public props: T) {
+    super('', props)
+    this.message = this.constructor.name + ' ' + this.toJSONProps(function (key, value) {
+      if (typeof value === 'bigint') return value.toString()
+      return value
+    })
+  }
 }
 
 export class CompositeError extends Error {
