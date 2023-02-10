@@ -2,8 +2,8 @@ import { Arithmetic } from '../arithmetic'
 import { purry } from 'remeda'
 
 export const BigIntArithmetic: Arithmetic<bigint> = {
-  zero: 0n,
-  one: 1n,
+  zero: BigInt(0),
+  one: BigInt(1),
   num(a) {
     return BigInt(a)
   },
