@@ -1,4 +1,4 @@
-import { strict as assert } from 'assert'
+import { strict as assert } from 'libs/utils/assert'
 import { camelCase } from 'lodash-es'
 import papaparse, { ParseConfig } from 'papaparse'
 

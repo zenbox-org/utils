@@ -20,6 +20,18 @@ export const BigNumberArithmetic: Arithmetic<BigNumber> = {
   div() {
     return purry((a: BigNumber, b: BigNumber) => a.dividedBy(b), arguments)
   },
+  min() {
+    return purry((a: BigNumber, b: BigNumber) => BigNumber.min(a, b), arguments)
+  },
+  max() {
+    return purry((a: BigNumber, b: BigNumber) => BigNumber.max(a, b), arguments)
+  },
+  abs(a) {
+    return a.abs()
+  },
+  sqrt(a) {
+    return a.sqrt()
+  },
   eq() {
     return purry((a: BigNumber, b: BigNumber) => a.eq(b), arguments)
   },

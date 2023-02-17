@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { getBooleanEnvVar } from './process'
 import $debug from 'debug'
 import { getRealName } from './filesystem'
+import { isObject } from 'remeda'
+import { NonEmptyArray } from './array/types'
 
 export const isEnabledLog = getBooleanEnvVar('LOG', process.env.LOG, false)
 
@@ -8,10 +11,38 @@ export function getDebug(filename: string) {
   return $debug('app').extend(getRealName(filename))
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function debug(filename: string, func: Function, ...args: [unknown, ...unknown[]]) {
+export function debug<Args extends NonEmptyArray<unknown>>(filename: string, func: Function, ...args: Args) {
   const d = getDebug(filename).extend(func.name)
   return d.apply(d, args)
+}
+
+export function input<Val>(filename: string, func: Function, value: Val) {
+  return dbg(filename, func, 'input', value)
+}
+
+export function inter<Val>(filename: string, func: Function, value: Val) {
+  return dbg(filename, func, 'inter', value)
+}
+
+export function output<Val>(filename: string, func: Function, value: Val) {
+  return dbg(filename, func, 'output', value)
+}
+
+export function dbg<Val>(filename: string, func: Function, stage: string, value: Val) {
+  return dbgS(filename, func.name, stage, value)
+}
+
+export function dbgS<Val>(filename: string, func: string, stage: string, value: Val) {
+  const d = getDebug(filename).extend(func).extend(stage)
+  switch (true) {
+    case isObject(value):
+      d('%o', value)
+      break
+    default:
+      d(value)
+      break
+  }
+  return value
 }
 
 export function peek<Data>(label: string, data: Data) {
