@@ -1,5 +1,5 @@
-import { Arithmetic } from '../arithmetic'
 import { purry } from 'remeda'
+import { Arithmetic } from '../arithmetic'
 import { sqrt } from './sqrt'
 
 export const BigIntArithmetic: Arithmetic<bigint> = {
@@ -20,6 +20,9 @@ export const BigIntArithmetic: Arithmetic<bigint> = {
   /* IMPORTANT: This is integer division. The actual result will be always less than or equal to the expected result: mul(div(a, b), b) <= a */
   div() {
     return purry((a: bigint, b: bigint) => a / b, arguments)
+  },
+  mod() {
+    return purry((a: bigint, b: bigint) => a % b, arguments)
   },
   min() {
     return purry((a: bigint, b: bigint) => a < b ? a : b, arguments)

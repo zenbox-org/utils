@@ -4,6 +4,8 @@ import { GetUid } from './zod'
 
 export type IsEqual<U> = (a: U) => (b: U) => boolean
 
+export const isEqualBy = <U, V>(mapper: Mapper<U, V>) => (a: U, b: U) => isEqualByD(a, b, mapper)
+
 /**
  * DC = Deep Curried
  */
@@ -23,11 +25,6 @@ export const isEqualByD = <U, V>(a: U, b: U, mapper: Mapper<U, V>) => equals(map
  * DC = Deep Curried
  */
 export const isEqualByDC = <U, V>(mapper: Mapper<U, V>) => (a: U) => (b: U) => isEqualByD(a, b, mapper)
-
-/**
- * C = Curried
- */
-export const isEqualBy = <U, V>(mapper: Mapper<U, V>) => (a: U, b: U) => isEqualByD(a, b, mapper)
 
 export function isSubsetOf<T>(set: T[], subset: T[]) {
   return difference(set, subset).length === 0

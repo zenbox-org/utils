@@ -21,6 +21,7 @@ export interface Arithmetic<T> {
   sub: AutoBinaryOperation<T>
   mul: AutoBinaryOperation<T>
   div: AutoBinaryOperation<T>
+  mod: AutoBinaryOperation<T>
   min: AutoBinaryOperation<T>
   max: AutoBinaryOperation<T>
   abs: AutoUnaryOperation<T>

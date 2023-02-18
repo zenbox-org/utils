@@ -1,7 +1,7 @@
 import { flatten, identity, last, range } from 'remeda'
 import { MutatorV, MutatorVP } from '../generic/models/Mutator'
-import { AlwaysTrueTypeGuard } from './typescript'
 import { NonEmptyArray } from './array/types'
+import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
   return Promise.all(values.map(value => mapper(value, ...args)))
@@ -69,7 +69,7 @@ export async function parallelMapAsyncGen<In, Out, Args extends unknown[]>(value
 /**
  * Map multiple mutators over a single value
  */
-export const sequentialReduce = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
+export const sequentialReduceV = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
   return mutators.reduce<Val>(($value, mutator) => {
     return mutator($value, ...args)
   }, value)

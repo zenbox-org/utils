@@ -1,6 +1,6 @@
-import { Arithmetic } from '../arithmetic'
 import { BigNumber } from 'bignumber.js'
 import { purry } from 'remeda'
+import { Arithmetic } from '../arithmetic'
 
 export const BigNumberArithmetic: Arithmetic<BigNumber> = {
   zero: new BigNumber(0),
@@ -17,8 +17,12 @@ export const BigNumberArithmetic: Arithmetic<BigNumber> = {
   mul() {
     return purry((a: BigNumber, b: BigNumber) => a.multipliedBy(b), arguments)
   },
+  /* IMPORTANT: This function loses data due to fixed precision */
   div() {
     return purry((a: BigNumber, b: BigNumber) => a.dividedBy(b), arguments)
+  },
+  mod() {
+    return purry((a: BigNumber, b: BigNumber) => a.modulo(b), arguments)
   },
   min() {
     return purry((a: BigNumber, b: BigNumber) => BigNumber.min(a, b), arguments)

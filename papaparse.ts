@@ -1,6 +1,6 @@
-import { strict as assert } from 'libs/utils/assert'
 import { camelCase } from 'lodash-es'
 import papaparse, { ParseConfig } from 'papaparse'
+import { assertEq } from './assert'
 
 const { parse: parseOriginal } = papaparse
 
@@ -10,7 +10,7 @@ export async function parseCSV<T = unknown>(contents: string, config: ParseConfi
     transformHeader: camelCase,
     ...config,
   })
-  assert.deepEqual(result.errors, [])
+  assertEq(result.errors, [], 'result.errors')
   return result.data
 }
 

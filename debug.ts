@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { getBooleanEnvVar } from './process'
 import $debug from 'debug'
-import { getRealName } from './filesystem'
 import { isObject } from 'remeda'
 import { NonEmptyArray } from './array/types'
+import { getRealName } from './filesystem'
+import { getBooleanEnvVar } from './process'
 
-export const isEnabledLog = getBooleanEnvVar('LOG', process.env.LOG, false)
+export const isLogEnabled = getBooleanEnvVar('LOG', process.env.LOG, false)
 
 export function getDebug(filename: string) {
   return $debug('app').extend(getRealName(filename))
@@ -52,5 +52,5 @@ export function peek<Data>(label: string, data: Data) {
 }
 
 export function show<Args extends unknown[]>(...args: Args) {
-  if (isEnabledLog) console.info(...args)
+  if (isLogEnabled) console.info(...args)
 }
