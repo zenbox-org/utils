@@ -1,5 +1,5 @@
 import { flatten, identity, last, range } from 'remeda'
-import { MutatorV, MutatorVP } from '../generic/models/Mutator'
+import { Mutator, MutatorV, MutatorVP } from '../generic/models/Mutator'
 import { NonEmptyArray } from './array/types'
 import { AlwaysTrueTypeGuard } from './typescript'
 
@@ -64,6 +64,10 @@ export async function parallelMapAsyncGen<In, Out, Args extends unknown[]>(value
     promises.push(mapper(value, ...args))
   }
   return parallel(promises)
+}
+
+export const sequentialReduce = <Val>(mutators: Mutator<Val>[]) => (value: Val) => {
+  return mutators.reduce((value, mutator) => mutator(value), value)
 }
 
 /**
