@@ -1,6 +1,6 @@
 import { flatten, identity, last, range } from 'remeda'
 import { Mutator, MutatorV, MutatorVP } from '../generic/models/Mutator'
-import { NonEmptyArray } from './array/types'
+import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
@@ -72,6 +72,7 @@ export const sequentialReduce = <Val>(mutators: Mutator<Val>[]) => (value: Val) 
 
 /**
  * Map multiple mutators over a single value
+ * V = Variadic
  */
 export const sequentialReduceV = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
   return mutators.reduce<Val>(($value, mutator) => {
@@ -79,7 +80,7 @@ export const sequentialReduceV = <Val, Args extends unknown[]>(mutators: Mutator
   }, value)
 }
 
-export const sequentialReducePush = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
+export const sequentialReducePushV = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
   const initial: NonEmptyArray<Val> = [value]
   return mutators.reduce<NonEmptyArray<Val>>((values: NonEmptyArray<Val>, mutator): NonEmptyArray<Val> => {
     return [...values, mutator(last(values), ...args)]

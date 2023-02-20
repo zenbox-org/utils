@@ -1,5 +1,5 @@
-import { stringify } from './JSON'
 import { callMB } from '../generic/models/Mapper/callMB'
+import { stringify } from './JSON'
 
 export interface WithToString {
   toString: () => string
@@ -41,13 +41,11 @@ export function getLines(text: string) {
   return text.split('\n')
 }
 
-type Stringifiable = string | bigint | WithToString | object
-
-export function toString(s: Stringifiable) {
+export function toString(s: unknown) {
   if (typeof s === 'string') return s
   if (typeof s === 'bigint') return s.toString()
-  if (typeof s === 'object' && 'toString' in s && typeof s.toString === 'function') return s.toString()
+  if (typeof s === 'object' && s !== null && 'toString' in s && typeof s.toString === 'function') return s.toString()
   return stringify(s)
 }
 
-export const toStringA = (s: Stringifiable[]) => s.map(toString)
+export const toStringA = (s: unknown[]) => s.map(toString)

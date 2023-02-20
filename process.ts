@@ -1,6 +1,6 @@
 import { identity } from 'remeda'
 import { Mapper } from '../generic/models/Mapper'
-import { NonEmptyArray } from './array/types'
+import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { string2array, string2boolean } from './conversion'
 
 /**

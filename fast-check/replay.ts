@@ -1,5 +1,7 @@
-import { Parameters } from 'fast-check'
+import { assert, asyncProperty, Parameters } from 'fast-check'
+import { Arbitrary } from 'fast-check/lib/types/check/arbitrary/definition/Arbitrary'
 import { CommandsContraints } from 'fast-check/lib/types/check/model/commands/CommandsContraints'
+import { IAsyncProperty } from 'fast-check/lib/types/check/property/AsyncProperty'
 import { fileExists } from '../filesystem'
 import { fetchBooleanEnvVar, getBooleanEnvVar } from '../process'
 
@@ -48,3 +50,17 @@ export async function getReplayParameters(): Promise<ReplayParameters> {
   }
   return emptyReplayParameters
 }
+
+export const assertR = async <Ts>(property: IAsyncProperty<Ts>, params?: Parameters<Ts>) => {
+  return assert(property, await getAssertParametersForReplay(params))
+}
+
+export const assertRP = async <Ts extends [unknown, ...unknown[]]>(...args: [...arbitraries: {
+  [K in keyof Ts]: Arbitrary<Ts[K]>
+}, predicate: (...args: Ts) => Promise<boolean | void>]) => {
+  return assert(asyncProperty(...args), await getAssertParametersForReplay())
+}
+
+// export function assertR<Ts>(property: IRawProperty<Ts>, params?: Parameters<Ts>): Promise<void> | void {
+//
+// }

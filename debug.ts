@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import $debug from 'debug'
 import { isObject } from 'remeda'
-import { NonEmptyArray } from './array/types'
+import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { getRealName } from './filesystem'
 import { getBooleanEnvVar } from './process'
 
