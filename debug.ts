@@ -20,7 +20,7 @@ export function input<Val>(filename: string, func: Function, value: Val) {
   return dbg(filename, func, 'input', value)
 }
 
-export function inter<Val>(filename: string, func: Function, value: Val) {
+export function inner<Val>(filename: string, func: Function, value: Val) {
   return dbg(filename, func, 'inter', value)
 }
 
