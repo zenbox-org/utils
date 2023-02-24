@@ -70,6 +70,8 @@ export const sequentialReduce = <Val>(mutators: Mutator<Val>[]) => (value: Val) 
   return mutators.reduce((value, mutator) => mutator(value), value)
 }
 
+export const chain = sequentialReduce
+
 /**
  * Map multiple mutators over a single value
  * V = Variadic

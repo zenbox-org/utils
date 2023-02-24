@@ -41,11 +41,16 @@ export function getLines(text: string) {
   return text.split('\n')
 }
 
-export function toString(s: unknown) {
+export function toStringMaybe(s: unknown) {
   if (typeof s === 'string') return s
   if (typeof s === 'bigint') return s.toString()
-  if (typeof s === 'object' && s !== null && 'toString' in s && typeof s.toString === 'function') return s.toString()
-  return stringify(s)
+  if (typeof s === 'function') return s.toString()
 }
 
-export const toStringA = (s: unknown[]) => s.map(toString)
+export function toString(value: unknown): string {
+  // NOTE: The following line is commented because otherwise the function returns [object Object] for regular Record<string, any>
+  // if (typeof s === 'object' && s !== null && 'toString' in s && typeof s.toString === 'function') return s.toString()
+  return toStringMaybe(value) || stringify(value, (key, value) => toStringMaybe(value) || value)
+}
+
+export const toStringA = (value: unknown[]) => value.map(toString)

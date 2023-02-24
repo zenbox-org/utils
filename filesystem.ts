@@ -1,5 +1,5 @@
 import { OpenMode, PathLike } from 'fs'
-import { FileHandle, mkdir, readdir, readFile, stat } from 'fs/promises'
+import { FileHandle, mkdir, readdir, readFile, stat, unlink } from 'fs/promises'
 import { basename } from 'path'
 
 export type Filename = PathLike
@@ -28,7 +28,19 @@ export function getRealName(filename: string) {
 }
 
 export async function fileExists(path: PathLike) {
-  return stat(path).then(stat => true).catch(e => false)
+  return stat(path).then(stat => true).catch(e => {
+    if (e.code === 'ENOENT') {
+      return false
+    } else {
+      throw e
+    }
+  })
+}
+
+export async function unlinkIfExists(path: PathLike) {
+  if (await fileExists(path)) {
+    return unlink(path)
+  }
 }
 
 export async function mkdirIfNoxExists(folder: string) {

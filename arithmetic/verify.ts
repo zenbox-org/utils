@@ -15,5 +15,5 @@ export const verify = <T>(arithmetic: Arithmetic<T>) => (a: T) => (b: T) => {
   assertEq(div(a, one), a, 'div(a, one)', 'a')
   assertEq(sub(sum, b), a, 'sub(sum, b)', 'a')
   assertEq(div(product, b), a, 'div(product, b)', 'a')
-  assertLte(mul(dividend, b), a, 'mul(dividend, b)', 'a', 'Due to integer division, the output may be less than input')
+  assertLte(mul(dividend, b), a, 'mul(dividend, b)', 'a', {}, 'Due to integer division, the output may be less than input')
 }

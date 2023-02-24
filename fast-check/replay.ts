@@ -1,11 +1,13 @@
-import { assert, asyncProperty, Parameters } from 'fast-check'
-import { Arbitrary } from 'fast-check/lib/types/check/arbitrary/definition/Arbitrary'
+import { Parameters } from 'fast-check'
 import { CommandsContraints } from 'fast-check/lib/types/check/model/commands/CommandsContraints'
-import { IAsyncProperty } from 'fast-check/lib/types/check/property/AsyncProperty'
 import { fileExists } from '../filesystem'
 import { fetchBooleanEnvVar, getBooleanEnvVar } from '../process'
 
 export const REPLAY_PARAMETERS_PATH = `${process.cwd()}/replay.cjs`
+
+export interface ParametersWithReplay<T = void> extends Parameters<T> {
+  replayParametersPath: string
+}
 
 export type AssertReplayParameters = Pick<Parameters, 'seed' | 'path' | 'endOnFailure'>
 
@@ -21,8 +23,9 @@ const emptyReplayParameters: ReplayParameters = {
   commands: {},
 }
 
-const defaultAssertParameters: Pick<Parameters, 'verbose'> = {
+const defaultAssertParameters = {
   verbose: getBooleanEnvVar('FAST_CHECK_VERBOSE', process.env.FAST_CHECK_VERBOSE, true),
+  numRuns: 500,
 }
 
 export async function getAssertParametersForReplay<T>(overrides: Parameters<T> = defaultAssertParameters): Promise<Parameters<T>> {
@@ -51,15 +54,9 @@ export async function getReplayParameters(): Promise<ReplayParameters> {
   return emptyReplayParameters
 }
 
-export const assertR = async <Ts>(property: IAsyncProperty<Ts>, params?: Parameters<Ts>) => {
-  return assert(property, await getAssertParametersForReplay(params))
-}
-
-export const assertRP = async <Ts extends [unknown, ...unknown[]]>(...args: [...arbitraries: {
-  [K in keyof Ts]: Arbitrary<Ts[K]>
-}, predicate: (...args: Ts) => Promise<boolean | void>]) => {
-  return assert(asyncProperty(...args), await getAssertParametersForReplay())
-}
+// export const assertR = async <Ts>(property: IAsyncProperty<Ts>, params?: Parameters<Ts>) => {
+//   return assert(property, await getAssertParametersForReplay(params))
+// }
 
 // export function assertR<Ts>(property: IRawProperty<Ts>, params?: Parameters<Ts>): Promise<void> | void {
 //

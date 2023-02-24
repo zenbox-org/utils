@@ -1,5 +1,6 @@
 import { purry } from 'remeda'
 import { Arithmetic } from '../arithmetic'
+import { getAssert } from '../arithmetic/getAssert'
 import { sqrt } from './sqrt'
 
 export const BigIntArithmetic: Arithmetic<bigint> = {
@@ -50,3 +51,5 @@ export const BigIntArithmetic: Arithmetic<bigint> = {
     return purry((a: bigint, b: bigint) => a >= b, arguments)
   },
 }
+
+export const assert = getAssert(BigIntArithmetic)

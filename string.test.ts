@@ -1,6 +1,6 @@
 import { test } from '@jest/globals'
 import { expect } from './chai'
-import { nail } from './string'
+import { nail, toString } from './string'
 
 test('nail', async function () {
   expect(nail(`
@@ -45,4 +45,12 @@ test('nail', async function () {
 `)).to.equal(`
 * No change
 `)
+})
+
+test(toString.name, async function () {
+  expect(toString({ a: 1 }).trim()).to.equal(`
+{
+  "a": 1
+}
+  `.trim())
 })

@@ -1,5 +1,7 @@
 import $assert from 'assert'
+import * as process from 'process'
 import { equals, identity } from 'remeda'
+import { fetchBooleanEnvVar } from './process'
 import { toString } from './string'
 
 /**
@@ -7,14 +9,19 @@ import { toString } from './string'
  */
 export type Asserter<Val> = (value: Val) => Val
 
-export const assertBy = <A, B = A>(comparator: (a: A, b: B) => boolean, $comparator = comparator.name) => (a: A, b: B, $a = `${a}`, $b = `${b}`, $message = '') => {
+const withContext = fetchBooleanEnvVar('ASSERT_WITH_CONTEXT', process.env.ASSERT_WITH_CONTEXT)
+
+export const assertBy = <A, B = A>(comparator: (a: A, b: B) => boolean, $comparator = comparator.name) => (a: A, b: B, $a = `${a}`, $b = `${b}`, context?: Record<string, unknown>, $message?: string) => {
   return $assert.strict(
     comparator(a, b),
     [
-      `${$comparator}(${$a}, ${$b})`,
-      `${$comparator}(${toStringForAssert(a)}, ${toStringForAssert(b)})`,
-      $message,
-    ].filter(identity).join(' ~ ')
+      [
+        `${$comparator}(${$a}, ${$b})`,
+        `${$comparator}(${toStringForAssert(a)}, ${toStringForAssert(b)})`,
+        $message,
+      ].filter(identity).join(' ~ '),
+      withContext ? toString(context) : '',
+    ].filter(identity).join('\n')
   )
 }
 

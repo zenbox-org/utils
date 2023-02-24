@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { stringify } from './JSON'
 import { getMoniker } from './moniker'
+import { toString } from './string'
 
 export class CustomError<T> extends Error {
   constructor(public message: string, public props: T) {
@@ -20,10 +21,7 @@ export class CustomError<T> extends Error {
 export class AssertionFailedError<T> extends CustomError<T> {
   constructor(public props: T) {
     super('', props)
-    this.message = this.constructor.name + ' ' + this.toJSONProps(function (key, value) {
-      if (typeof value === 'bigint') return value.toString()
-      return value
-    })
+    this.message = this.constructor.name + ' ' + toString(props)
   }
 }
 
