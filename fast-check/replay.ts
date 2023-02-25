@@ -1,7 +1,7 @@
 import { Parameters } from 'fast-check'
 import { CommandsContraints } from 'fast-check/lib/types/check/model/commands/CommandsContraints'
 import { fileExists } from '../filesystem'
-import { fetchBooleanEnvVar, getBooleanEnvVar } from '../process'
+import { fetchBooleanEnvVar, getBooleanEnvVar, getIntegerEnvVar } from '../process'
 
 export const REPLAY_PARAMETERS_PATH = `${process.cwd()}/replay.cjs`
 
@@ -25,7 +25,7 @@ const emptyReplayParameters: ReplayParameters = {
 
 const defaultAssertParameters = {
   verbose: getBooleanEnvVar('FAST_CHECK_VERBOSE', process.env.FAST_CHECK_VERBOSE, true),
-  numRuns: 500,
+  numRuns: getIntegerEnvVar('FAST_CHECK_NUM_RUNS', process.env.FAST_CHECK_NUM_RUNS, 500),
 }
 
 export async function getAssertParametersForReplay<T>(overrides: Parameters<T> = defaultAssertParameters): Promise<Parameters<T>> {

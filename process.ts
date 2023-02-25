@@ -1,7 +1,7 @@
 import { identity } from 'remeda'
 import { Mapper } from '../generic/models/Mapper'
 import { NonEmptyArray } from './array/ensureNonEmptyArray'
-import { string2array, string2boolean } from './conversion'
+import { string2array, string2boolean, string2integer } from './conversion'
 
 /**
  * Next.js inlines `process.env.VAR_NAME` during build, so they must be passed directly
@@ -20,9 +20,13 @@ export const getBooleanEnvVar = getEnvVar(string2boolean)
 
 export const fetchBooleanEnvVar = ($name: string, $value: string | undefined) => getBooleanEnvVar($name, $value, false)
 
+export const getIntegerEnvVar = getEnvVar(string2integer)
+
+export const fetchIntegerEnvVar = ($name: string, $value: string | undefined) => getIntegerEnvVar($name, $value, 0)
+
 export const getArrayEnvVar = getEnvVar(string2array)
 
-export const getNonEmptyArrayEnvVar = (name: string, value: string | undefined, $default?: string[]): NonEmptyArray<string> => {
+export const getNonEmptyArrayStringEnvVar = (name: string, value: string | undefined, $default?: string[]): NonEmptyArray<string> => {
   const values = getArrayEnvVar(name, value, $default)
   if (!values.length) throw new Error(`process.env.${name} must be a comma-separated list with at least one element`)
   const first = values[0]
