@@ -1,8 +1,8 @@
 import { BigNumber } from 'bignumber.js'
 import { purry } from 'remeda'
-import { Arithmetic } from '../arithmetic'
+import { BaseArithmetic } from '../arithmetic'
 
-export const BigNumberArithmetic: Arithmetic<BigNumber> = {
+export const BigNumberArithmetic: BaseArithmetic<BigNumber> = {
   zero: new BigNumber(0),
   one: new BigNumber(1),
   num(a) {
