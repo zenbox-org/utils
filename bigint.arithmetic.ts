@@ -1,7 +1,7 @@
 import { purry } from 'remeda'
-import { BaseArithmetic, extendArithmetic } from '../arithmetic'
-import { getAssert } from '../arithmetic/getAssert'
-import { sqrt } from './sqrt'
+import { BaseArithmetic, extendArithmetic } from './arithmetic'
+import { getAssert } from './arithmetic/getAssert'
+import { sqrt } from './bigint/sqrt'
 
 export const BaseBigIntArithmetic: BaseArithmetic<bigint> = {
   zero: BigInt(0),
@@ -31,8 +31,8 @@ export const BaseBigIntArithmetic: BaseArithmetic<bigint> = {
   max() {
     return purry((a: bigint, b: bigint) => a > b ? a : b, arguments)
   },
-  abs() {
-    return purry((a: bigint) => a < 0n ? -a : a, arguments)
+  abs(a: bigint) {
+    return a < 0n ? -a : a
   },
   sqrt,
   eq() {

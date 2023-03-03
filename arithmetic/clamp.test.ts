@@ -1,5 +1,5 @@
 import { bigInt, tuple } from 'fast-check'
-import { BigIntArithmetic } from '../bigint/BigIntArithmetic'
+import { BigIntArithmetic } from '../bigint.arithmetic'
 import { assertPD } from '../fast-check/assert'
 import { clamp } from './clamp'
 

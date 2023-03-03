@@ -1,5 +1,5 @@
 import { BN } from '../bn'
-import { BigNumber } from './bignumber'
+import { BigNumber } from './BigNumber.utils'
 import { isPositive } from '../bn/utils'
 
 export type BNRenderer = (amount: BN) => string

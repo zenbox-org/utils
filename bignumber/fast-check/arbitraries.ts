@@ -1,6 +1,6 @@
 import { BigIntConstraints } from 'fast-check/lib/types/arbitrary/bigInt'
 import { bigInt } from 'fast-check'
-import { bigint2bignum } from '../../bignumber'
+import { bigint2bignum } from '../../BigNumber.utils'
 
 export const bigNum = (constraints: BigIntConstraints) => bigInt(constraints).map(bigint2bignum)
 

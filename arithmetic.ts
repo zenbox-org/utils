@@ -1,6 +1,6 @@
 import { and } from '../generic/models/Filter'
 
-export type UnaryOperation<A, Out> =(a: A) => Out
+export type UnaryOperation<A, Out> = (a: A) => Out
 
 export type BinaryOperationS<A, B, Out> = (a: A, b: B) => Out
 
@@ -13,6 +13,8 @@ export type TernaryOperationD<A, B, V, Out> = (a: A, b: B) => (value: V) => Out
 export type AutoUnaryOperation<T> = UnaryOperation<T, T>
 
 export type AutoBinaryOperation<T> = BinaryOperation<T, T, T>
+
+export type BooleanBinaryOperation<T> = BinaryOperation<T, T, boolean>
 
 /**
  * use purry() to implement functions that support currying
@@ -30,11 +32,11 @@ export interface BaseArithmetic<N> {
   max: AutoBinaryOperation<N>
   abs: AutoUnaryOperation<N>
   sqrt: AutoUnaryOperation<N>
-  eq: BinaryOperation<N, N, boolean>
-  lt: BinaryOperation<N, N, boolean>
-  gt: BinaryOperation<N, N, boolean>
-  lte: BinaryOperation<N, N, boolean>
-  gte: BinaryOperation<N, N, boolean>
+  eq: BooleanBinaryOperation<N>
+  lt: BooleanBinaryOperation<N>
+  gt: BooleanBinaryOperation<N>
+  lte: BooleanBinaryOperation<N>
+  gte: BooleanBinaryOperation<N>
 }
 
 export interface Arithmetic<N> extends BaseArithmetic<N> {
