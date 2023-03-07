@@ -1,5 +1,5 @@
-import { Arithmetic } from '../arithmetic'
+import { BasicArithmetic } from '../arithmetic'
 import { getShare } from './getShare'
 import { Quotient } from './Quotient'
 
-export const getQuotientOf = <N>(arithmetic: Arithmetic<N>) => ({ numerator, denominator }: Quotient<N>) => getShare(arithmetic)(denominator)(numerator)
+export const getQuotientOf = <N>(arithmetic: BasicArithmetic<N>) => ({ numerator, denominator }: Quotient<N>) => getShare(arithmetic)(denominator)(numerator)

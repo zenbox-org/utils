@@ -1,9 +1,9 @@
 import { purry } from 'remeda'
-import { BaseArithmetic, extendArithmetic } from './arithmetic'
-import { getAssert } from './arithmetic/getAssert'
+import { BasicArithmetic, getBasicOperations, getTernaryComparisons } from './arithmetic'
+import { getBasicAssertions, getTernaryAssertions } from './arithmetic/getAssertions'
 import { sqrt } from './bigint/sqrt'
 
-export const BaseBigIntArithmetic: BaseArithmetic<bigint> = {
+export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   zero: BigInt(0),
   one: BigInt(1),
   num(a) {
@@ -52,6 +52,17 @@ export const BaseBigIntArithmetic: BaseArithmetic<bigint> = {
   },
 }
 
-export const BigIntArithmetic = extendArithmetic(BaseBigIntArithmetic)
+export const BigIntTernaryComparisons = getTernaryComparisons(BigIntBasicArithmetic)
 
-export const assert = getAssert(BigIntArithmetic)
+export const BigIntBasicOperations = getBasicOperations(BigIntBasicArithmetic)
+
+export const BigIntBasicAssertions = getBasicAssertions(BigIntBasicArithmetic)
+
+export const BigIntTernaryAssertions = getTernaryAssertions(BigIntTernaryComparisons)
+
+export const BigIntAllAssertions = {
+  ...BigIntBasicAssertions,
+  ...BigIntTernaryAssertions,
+}
+
+export const assert = BigIntAllAssertions

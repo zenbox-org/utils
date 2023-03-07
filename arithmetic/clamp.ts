@@ -1,11 +1,11 @@
-import { Arithmetic } from '../arithmetic'
+import { BasicArithmetic } from '../arithmetic'
 import { assertByBinary } from '../assert'
 
 /**
  * lower inclusive
  * upper exclusive
  */
-export const clamp = <N>({ one, add, sub, mod, lt, gte, zero }: Arithmetic<N>) => (lower: N, upper: N) => (value: N) => {
+export const clamp = <N>({ one, add, sub, mod, lt, gte, zero }: BasicArithmetic<N>) => (lower: N, upper: N) => (value: N) => {
   assertByBinary(gte)(lower, zero, 'lower', 'zero')
   assertByBinary(gte)(upper, zero, 'upper', 'zero')
   assertByBinary(gte)(value, zero, 'value', 'zero')
@@ -18,4 +18,4 @@ export const clamp = <N>({ one, add, sub, mod, lt, gte, zero }: Arithmetic<N>) =
  * upper inclusive
  */
 
-export const clampIn = <N>(arithmetic: Arithmetic<N>) => (lower: N, upper: N) => clamp(arithmetic)(lower, arithmetic.add(upper, arithmetic.one))
+export const clampIn = <N>(arithmetic: BasicArithmetic<N>) => (lower: N, upper: N) => clamp(arithmetic)(lower, arithmetic.add(upper, arithmetic.one))

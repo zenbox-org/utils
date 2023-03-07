@@ -2,16 +2,16 @@ import { array, double } from 'fast-check'
 import { equals, sort } from 'remeda'
 import { ascending, descending } from '../comparator'
 import { assertPRD } from '../fast-check/assert'
-import { NumberArithmetic } from '../number.arithmetic'
+import { NumberBasicArithmetic } from '../number.arithmetic'
 import { compareNumerals } from '../numeral/sort'
 import { allUnique } from '../remeda/allUnique'
 import { isAscending, isAscendingStrict, isDescending, isDescendingStrict } from './order'
 
 test('order', async function () {
-  const isAscendingN = isAscending(NumberArithmetic)
-  const isDescendingN = isDescending(NumberArithmetic)
-  const isAscendingStrictN = isAscendingStrict(NumberArithmetic)
-  const isDescendingStrictN = isDescendingStrict(NumberArithmetic)
+  const isAscendingN = isAscending(NumberBasicArithmetic)
+  const isDescendingN = isDescending(NumberBasicArithmetic)
+  const isAscendingStrictN = isAscendingStrict(NumberBasicArithmetic)
+  const isDescendingStrictN = isDescendingStrict(NumberBasicArithmetic)
   return assertPRD(array(double()), async function (arr) {
     if (arr.length <= 1) {
       expect(isAscendingN(arr)).toBeTruthy()

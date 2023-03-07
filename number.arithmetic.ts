@@ -1,8 +1,7 @@
 import { purry } from 'remeda'
-import { BaseArithmetic, extendArithmetic } from './arithmetic'
-import { getAssert } from './arithmetic/getAssert'
+import { BasicArithmetic } from './arithmetic'
 
-export const BaseNumberArithmetic: BaseArithmetic<number> = {
+export const NumberBasicArithmetic: BasicArithmetic<number> = {
   zero: 0,
   one: 1,
   num(a) {
@@ -51,7 +50,3 @@ export const BaseNumberArithmetic: BaseArithmetic<number> = {
     return purry((a: number, b: number) => a >= b, arguments)
   },
 }
-
-export const NumberArithmetic = extendArithmetic(BaseNumberArithmetic)
-
-export const assert = getAssert(NumberArithmetic)

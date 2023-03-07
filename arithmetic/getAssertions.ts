@@ -1,13 +1,22 @@
-import { Arithmetic } from '../arithmetic'
+import { BasicArithmetic, WithTernaryComparisons } from '../arithmetic'
 import { assertByBinary, assertByUnary } from '../assert'
 
-export const getAssert = <N>({ eq, lt, gt, lte, gte, gtelte, gtlte, gtelt, gtlt }: Arithmetic<N>) => ({
-  by: assertByBinary,
+export const getAssertions = <N>(base: BasicArithmetic<N>, ternary: WithTernaryComparisons<N>) => ({
+  ...getBasicAssertions(base),
+  ...getTernaryAssertions(ternary),
+})
+
+export const getBasicAssertions = <N>({ eq, lt, gt, lte, gte }: BasicArithmetic<N>) => ({
+  oneBy: assertByUnary,
+  twoBy: assertByBinary,
   eq: assertByBinary(eq),
   lt: assertByBinary(lt),
   gt: assertByBinary(gt),
   lte: assertByBinary(lte),
   gte: assertByBinary(gte),
+})
+
+export const getTernaryAssertions = <N>({ gtelte, gtlte, gtelt, gtlt }: WithTernaryComparisons<N>) => ({
   gtelte: (lower: N, upper: N) => assertByUnary(gtelte(lower, upper), `gtelte(${lower}, ${upper})`),
   gtlte: (lower: N, upper: N) => assertByUnary(gtlte(lower, upper), `gtlte(${lower}, ${upper})`),
   gtelt: (lower: N, upper: N) => assertByUnary(gtelt(lower, upper), `gtelt(${lower}, ${upper})`),

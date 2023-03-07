@@ -1,7 +1,7 @@
-import { Arithmetic } from '../arithmetic'
+import { BasicArithmetic } from '../arithmetic'
 import { assertByBinary } from '../assert'
 
-export const verify = <T>(arithmetic: Arithmetic<T>) => (a: T) => (b: T) => {
+export const verify = <T>(arithmetic: BasicArithmetic<T>) => (a: T) => (b: T) => {
   const { zero, one, add, sub, mul, div, eq, lte } = arithmetic
   const assertEq = assertByBinary(eq)
   const assertLte = assertByBinary(lte)

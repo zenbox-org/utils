@@ -1,4 +1,9 @@
 import { and } from '../generic/models/Filter'
+import { clamp, clampIn } from './arithmetic/clamp'
+import { getDeltas } from './arithmetic/getDeltas'
+import { getShare } from './arithmetic/getShare'
+import { halve } from './arithmetic/halve'
+import { sum, sumAmounts } from './arithmetic/sum'
 
 export type UnaryOperation<A, Out> = (a: A) => Out
 
@@ -19,7 +24,7 @@ export type BooleanBinaryOperation<T> = BinaryOperation<T, T, boolean>
 /**
  * use purry() to implement functions that support currying
  */
-export interface BaseArithmetic<N> {
+export interface BasicArithmetic<N> {
   zero: N
   one: N
   num: (a: number) => N
@@ -39,20 +44,31 @@ export interface BaseArithmetic<N> {
   gte: BooleanBinaryOperation<N>
 }
 
-export interface Arithmetic<N> extends BaseArithmetic<N> {
+export interface WithTernaryComparisons<N> {
   gtelte: TernaryOperationD<N, N, N, boolean>
   gtlte: TernaryOperationD<N, N, N, boolean>
   gtelt: TernaryOperationD<N, N, N, boolean>
   gtlt: TernaryOperationD<N, N, N, boolean>
 }
 
-export const extendArithmetic = <N>(arithmetic: BaseArithmetic<N>) => {
+export const getTernaryComparisons = <N>(arithmetic: BasicArithmetic<N>) => {
   const { eq, lt, gt, lte, gte } = arithmetic
   return {
-    ...arithmetic,
     gtelte: (lower: N, upper: N) => and([gte(lower), lte(upper)]),
     gtlte: (lower: N, upper: N) => and([gt(lower), lte(upper)]),
     gtelt: (lower: N, upper: N) => and([gte(lower), lt(upper)]),
     gtlt: (lower: N, upper: N) => and([gt(lower), lt(upper)]),
+  }
+}
+
+export const getBasicOperations = <N>(arithmetic: BasicArithmetic<N>) => {
+  return {
+    sum: sum(arithmetic),
+    sumAmounts: sumAmounts(arithmetic),
+    halve: halve(arithmetic),
+    clamp: clamp(arithmetic),
+    clampIn: clampIn(arithmetic),
+    getShare: getShare(arithmetic),
+    getDeltas: getDeltas(arithmetic),
   }
 }
