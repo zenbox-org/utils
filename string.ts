@@ -54,3 +54,7 @@ export function toString(value: unknown): string {
 }
 
 export const toStringA = (value: unknown[]) => value.map(toString)
+
+export function stripLineAndColumnNumber(pathRaw: string) {
+  return pathRaw.replace(/(:\d+)*$/, '')
+}

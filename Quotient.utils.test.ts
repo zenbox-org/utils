@@ -1,5 +1,5 @@
-import { NumberBasicArithmetic } from '../number.arithmetic'
-import { isValidQuotientSum } from './Quotient'
+import { NumberBasicArithmetic } from './number.arithmetic'
+import { isValidQuotientSum } from './Quotient.utils'
 
 test(isValidQuotientSum.name, async () => {
   const isValidQuotientSumN = isValidQuotientSum(NumberBasicArithmetic)

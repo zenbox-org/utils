@@ -4,6 +4,7 @@ import { getDeltas } from './arithmetic/getDeltas'
 import { getShare } from './arithmetic/getShare'
 import { halve } from './arithmetic/halve'
 import { sum, sumAmounts } from './arithmetic/sum'
+import { getQuotientOf } from './Quotient.utils'
 
 export type UnaryOperation<A, Out> = (a: A) => Out
 
@@ -69,6 +70,7 @@ export const getBasicOperations = <N>(arithmetic: BasicArithmetic<N>) => {
     clamp: clamp(arithmetic),
     clampIn: clampIn(arithmetic),
     getShare: getShare(arithmetic),
+    getQuotientOf: getQuotientOf(arithmetic),
     getDeltas: getDeltas(arithmetic),
   }
 }
