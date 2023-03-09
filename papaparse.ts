@@ -10,7 +10,7 @@ export async function parseCSV<T = unknown>(contents: string, config: ParseConfi
     transformHeader: camelCase,
     ...config,
   })
-  assertEq(result.errors, [], 'result.errors')
+  assertEq(result.errors, [], 'result.errors', '[]')
   return result.data
 }
 

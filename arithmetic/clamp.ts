@@ -17,5 +17,4 @@ export const clamp = <N>({ one, add, sub, mod, lt, gte, zero }: BasicArithmetic<
  * lower inclusive
  * upper inclusive
  */
-
 export const clampIn = <N>(arithmetic: BasicArithmetic<N>) => (lower: N, upper: N) => clamp(arithmetic)(lower, arithmetic.add(upper, arithmetic.one))

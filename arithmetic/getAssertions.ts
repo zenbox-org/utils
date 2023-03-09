@@ -1,12 +1,22 @@
 import { BasicArithmetic, WithTernaryComparisons } from '../arithmetic'
-import { assertByBinary, assertByUnary } from '../assert'
+import { AssertBinary, assertByBinary, assertByUnary } from '../assert'
 
 export const getAssertions = <N>(base: BasicArithmetic<N>, ternary: WithTernaryComparisons<N>) => ({
   ...getBasicAssertions(base),
   ...getTernaryAssertions(ternary),
 })
 
-export const getBasicAssertions = <N>({ eq, lt, gt, lte, gte }: BasicArithmetic<N>) => ({
+export interface WithBasicAssertions<N> {
+  oneBy: typeof assertByUnary,
+  twoBy: typeof assertByBinary,
+  eq: AssertBinary<N, N>,
+  lt: AssertBinary<N, N>,
+  gt: AssertBinary<N, N>,
+  lte: AssertBinary<N, N>,
+  gte: AssertBinary<N, N>,
+}
+
+export const getBasicAssertions = <N>({ eq, lt, gt, lte, gte }: BasicArithmetic<N>): WithBasicAssertions<N> => ({
   oneBy: assertByUnary,
   twoBy: assertByBinary,
   eq: assertByBinary(eq),

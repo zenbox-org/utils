@@ -1,6 +1,6 @@
 import { test } from '@jest/globals'
-import { BigNumber, minimax } from './BigNumber.utils'
-import { expect } from './chai'
+import { BigNumber, minimax } from './utils'
+import { expect } from '../chai'
 
 test(minimax.name, () => {
   const one = new BigNumber(1)
