@@ -1,4 +1,4 @@
-import { BigIntAllAssertions } from './arithmetic'
+import { BigIntAllAssertions } from './BigIntBasicArithmetic'
 
 export const fromBigIntToNumber = (value: bigint) => {
   BigIntAllAssertions.lte(value, BigInt(Number.MAX_SAFE_INTEGER), 'value', 'BigInt(Number.MAX_SAFE_INTEGER)')

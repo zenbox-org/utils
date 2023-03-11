@@ -1,4 +1,4 @@
-export const sqrt = function (value: bigint) {
+export const sqrtNewton = function (value: bigint) {
   if (value < 2n) return value
 
   if (value < 16n) return BigInt(Math.sqrt(Number(value)) | 0)

@@ -1,7 +1,7 @@
 import { purry } from 'remeda'
-import { BasicArithmetic, getBasicOperations, getBasicValidations, getTernaryComparisons } from '../arithmetic'
+import { BasicArithmetic, getBasicValidations, getTernaryComparisons } from '../arithmetic'
 import { getBasicAssertions, getTernaryAssertions } from '../arithmetic/getAssertions'
-import { sqrt } from './sqrt'
+import { sqrtNewton } from './sqrtNewton'
 
 export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   zero: BigInt(0),
@@ -34,7 +34,7 @@ export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   abs(a: bigint) {
     return a < 0n ? -a : a
   },
-  sqrt,
+  sqrt: sqrtNewton,
   eq() {
     return purry((a: bigint, b: bigint) => a === b, arguments)
   },
@@ -52,13 +52,13 @@ export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   },
 }
 
-export const BigIntTernaryComparisons = getTernaryComparisons(BigIntBasicArithmetic)
-
-export const BigIntBasicOperations = getBasicOperations(BigIntBasicArithmetic)
+export const { zero, one, num, add, sub, mul, div, mod, min, max, abs, sqrt, eq, lt, gt, lte, gte } = BigIntBasicArithmetic
 
 export const BigIntBasicValidations = getBasicValidations(BigIntBasicArithmetic)
 
 export const BigIntBasicAssertions = getBasicAssertions(BigIntBasicArithmetic)
+
+export const BigIntTernaryComparisons = getTernaryComparisons(BigIntBasicArithmetic)
 
 export const BigIntTernaryAssertions = getTernaryAssertions(BigIntTernaryComparisons)
 

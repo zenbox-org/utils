@@ -1,32 +1,22 @@
+import { BasicArithmetic } from '../arithmetic'
 import { WithBasicAssertions } from '../arithmetic/getAssertions'
-import { BigIntAllAssertions } from '../bigint/arithmetic'
+import { BigIntAllAssertions, BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
 
-export interface QuotientGen<N> {
+export interface Quotient<N> {
   numerator: N
   denominator: N
 }
 
-type QuotientNum = QuotientGen<number>
-type QuotientBigInt = QuotientGen<bigint>
+export type QuotientTuple<N> = [N, N]
 
-const qa: QuotientNum = {
-  numerator: 1,
-  denominator: 10,
-}
-const qb: QuotientBigInt = {
-  numerator: 10n,
-  denominator: 1n,
-}
+export const fromQuotientTupleToQuotient = <N>([numerator, denominator]: QuotientTuple<N>): Quotient<N> => ({ numerator, denominator })
 
-export type QuotientGenTuple<N> = [N, N]
+export const fromQuotientToQuotientTuple = <N>({ numerator, denominator }: Quotient<N>): QuotientTuple<N> => [numerator, denominator]
 
-export const fromQuotientTupleToQuotient = <N>([numerator, denominator]: QuotientGenTuple<N>): QuotientGen<N> => ({ numerator, denominator })
-
-export const fromQuotientToQuotientTuple = <N>({ numerator, denominator }: QuotientGen<N>): QuotientGenTuple<N> => [numerator, denominator]
-
-export const parseQuotientGen = <N>(assert: WithBasicAssertions<N>) => ({ numerator, denominator }: QuotientGen<N>): QuotientGen<N> => {
+export const parseQuotientGen = <N>({ zero }: BasicArithmetic<N>, assert: WithBasicAssertions<N>) => ({ numerator, denominator }: Quotient<N>): Quotient<N> => {
   assert.lte(numerator, denominator, 'numerator', 'denominator')
+  assert.gte(denominator, zero, 'denominator', 'zero')
   return { numerator, denominator }
 }
 
-export const parseQuotientGenBigInt = parseQuotientGen(BigIntAllAssertions)
+export const parseQuotientGenBigInt = parseQuotientGen(BigIntBasicArithmetic, BigIntAllAssertions)

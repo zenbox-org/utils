@@ -1,6 +1,6 @@
 import { isDefined } from 'remeda'
 import { BasicArithmetic, BooleanBinaryOperation } from '../arithmetic'
-import { BigIntBasicArithmetic } from '../bigint/arithmetic'
+import { BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
 
 export const findIndexByOp = <N>(op: BooleanBinaryOperation<N>) => (values: N[]) => {
   for (let i = 1; i < values.length; i++) {
