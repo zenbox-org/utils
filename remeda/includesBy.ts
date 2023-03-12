@@ -1,3 +1,3 @@
-import { ComparatorBoolean } from '../comparator'
+import { BiFilter } from '../../generic/models/Filter'
 
-export const includesBy = <T>(comparator: ComparatorBoolean<T>) => (array: T[]) => (value: T) => !!array.find(v => comparator(v, value))
+export const includesBy = <T>(filter: BiFilter<T>) => (array: T[]) => (value: T) => !!array.find(v => filter(v, value))

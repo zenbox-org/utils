@@ -1,7 +1,5 @@
 export type Comparator<Val> = (a: Val, b: Val) => OutputComparator
 
-export type ComparatorBoolean<Val> = (a: Val, b: Val) => boolean
-
 /**
  * If you're not sure, use Comparator instead of ComparatorStrict
  */
