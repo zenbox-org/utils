@@ -3,6 +3,7 @@ import * as process from 'process'
 import { equals, identity } from 'remeda'
 import { fetchBooleanEnvVar } from './process'
 import { toString } from './string'
+import { eq } from './lodash'
 
 /**
  * May throw an exception
@@ -41,3 +42,5 @@ export function getMessage($func: string, args: unknown[], $args: string[], $mes
 export const toStringForAssert = (s: unknown) => toString(s === '' ? '<empty-string>' : s)
 
 export const assertEq = assertByBinary(equals)
+
+export const assertTrue = assertByUnary(eq(true), 'eq(true)')
