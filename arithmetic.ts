@@ -4,7 +4,7 @@ import { getDeltas } from './arithmetic/getDeltas'
 import { getShare } from './arithmetic/getShare'
 import { halve } from './arithmetic/halve'
 import { sum, sumAmounts } from './arithmetic/sum'
-import { getQuotientOf, isValidQuotientSum } from './Quotient/utils'
+import { getQuotientOf } from './Quotient/getQuotientOf'
 
 export type UnaryOperation<A, Out> = (a: A) => Out
 
@@ -22,20 +22,46 @@ export type AutoBinaryOperation<T> = BinaryOperation<T, T, T>
 
 export type BooleanBinaryOperation<T> = BinaryOperation<T, T, boolean>
 
-/**
- * use purry() to implement functions that support currying
- */
-export interface BasicArithmetic<N> {
+export interface BasicType<N> {
   zero: N
   one: N
-  num: (a: number) => N
+}
+
+export interface ConversionsFrom<N> {
+  fromNumber: (v: number) => N
+  fromString: (v: string) => N
+}
+
+export interface HomoBasicOperations<N> {
   add: AutoBinaryOperation<N>
   sub: AutoBinaryOperation<N>
   mul: AutoBinaryOperation<N>
   div: AutoBinaryOperation<N>
   mod: AutoBinaryOperation<N>
-  min: AutoBinaryOperation<N>
-  max: AutoBinaryOperation<N>
+}
+
+export interface HeteroBasicOperations<A, B, Out> {
+  add: BinaryOperation<A, B, Out>
+  sub: BinaryOperation<A, B, Out>
+  mul: BinaryOperation<A, B, Out>
+  div: BinaryOperation<A, B, Out>
+  mod: BinaryOperation<A, B, Out>
+}
+
+export interface HeteroComparators<A, B> {
+  eq: BinaryOperation<A, B, boolean>
+  lt: BinaryOperation<A, B, boolean>
+  gt: BinaryOperation<A, B, boolean>
+  lte: BinaryOperation<A, B, boolean>
+  gte: BinaryOperation<A, B, boolean>
+}
+
+/**
+ * use purry() to implement functions that support currying
+ */
+export interface BasicArithmetic<N> extends BasicType<N>, ConversionsFrom<N>, HomoBasicOperations<N> {
+  min: AutoBinaryOperation<N> // TODO: define in terms of lt
+  max: AutoBinaryOperation<N> // TODO: define in terms of gt
   abs: AutoUnaryOperation<N>
   sqrt: AutoUnaryOperation<N>
   eq: BooleanBinaryOperation<N>
@@ -62,7 +88,7 @@ export const getTernaryComparisons = <N>(arithmetic: BasicArithmetic<N>) => {
   }
 }
 
-export const getBasicOperations = <N>(arithmetic: BasicArithmetic<N>) => {
+export const getAdvancedOperations = <N>(arithmetic: BasicArithmetic<N>) => {
   return {
     sum: sum(arithmetic),
     sumAmounts: sumAmounts(arithmetic),
@@ -72,11 +98,5 @@ export const getBasicOperations = <N>(arithmetic: BasicArithmetic<N>) => {
     getShare: getShare(arithmetic),
     getQuotientOf: getQuotientOf(arithmetic),
     getDeltas: getDeltas(arithmetic),
-  }
-}
-
-export const getBasicValidations = <N>(arithmetic: BasicArithmetic<N>) => {
-  return {
-    isValidQuotientSum: isValidQuotientSum(arithmetic),
   }
 }

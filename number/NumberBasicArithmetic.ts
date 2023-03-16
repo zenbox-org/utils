@@ -1,11 +1,14 @@
 import { purry } from 'remeda'
-import { BasicArithmetic } from './arithmetic'
+import { BasicArithmetic } from '../arithmetic'
 
 export const NumberBasicArithmetic: BasicArithmetic<number> = {
   zero: 0,
   one: 1,
-  num(a) {
+  fromNumber(a) {
     return a
+  },
+  fromString(a) {
+    return parseFloat(a)
   },
   add() {
     return purry((a: number, b: number) => a + b, arguments)
@@ -50,3 +53,5 @@ export const NumberBasicArithmetic: BasicArithmetic<number> = {
     return purry((a: number, b: number) => a >= b, arguments)
   },
 }
+
+export const { zero, one, fromNumber, fromString, add, sub, mul, div, mod, min, max, abs, sqrt, eq, lt, gt, lte, gte } = NumberBasicArithmetic

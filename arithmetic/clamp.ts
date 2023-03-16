@@ -1,15 +1,15 @@
 import { BasicArithmetic } from '../arithmetic'
-import { assertByBinary } from '../assert'
+import { assertTwo } from '../assert'
 
 /**
  * lower inclusive
  * upper exclusive
  */
 export const clamp = <N>({ one, add, sub, mod, lt, gte, zero }: BasicArithmetic<N>) => (lower: N, upper: N) => (value: N) => {
-  assertByBinary(gte)(lower, zero, 'lower', 'zero')
-  assertByBinary(gte)(upper, zero, 'upper', 'zero')
-  assertByBinary(gte)(value, zero, 'value', 'zero')
-  assertByBinary(lt)(lower, upper, 'lower', 'upper')
+  assertTwo(gte)(lower, zero, 'lower', 'zero')
+  assertTwo(gte)(upper, zero, 'upper', 'zero')
+  assertTwo(gte)(value, zero, 'value', 'zero')
+  assertTwo(lt)(lower, upper, 'lower', 'upper')
   return add(lower)(mod(value, sub(upper, lower)))
 }
 

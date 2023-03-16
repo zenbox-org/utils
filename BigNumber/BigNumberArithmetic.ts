@@ -5,7 +5,10 @@ import { BasicArithmetic } from '../arithmetic'
 export const BigNumberArithmetic: BasicArithmetic<BigNumber> = {
   zero: new BigNumber(0),
   one: new BigNumber(1),
-  num(a) {
+  fromNumber(a) {
+    return new BigNumber(a)
+  },
+  fromString(a) {
     return new BigNumber(a)
   },
   add() {

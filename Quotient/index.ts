@@ -1,6 +1,7 @@
 import { BasicArithmetic } from '../arithmetic'
 import { WithBasicAssertions } from '../arithmetic/getAssertions'
-import { BigIntAllAssertions, BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
+import { BigIntAllAssertions } from '../bigint/BigIntAllAssertions'
+import { BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
 
 export interface Quotient<N> {
   numerator: N

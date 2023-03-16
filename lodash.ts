@@ -4,9 +4,7 @@ import { GetUid } from './zod'
 
 export type IsEqual<U> = (a: U) => (b: U) => boolean
 
-export const eq = <U>(a: U) => (b: U) => a === b
-
-export const isEqualBy = <U, V>(mapper: Mapper<U, V>) => (a: U, b: U) => isEqualByD(a, b, mapper)
+export const isEqualBy = <In, Out>(mapper: Mapper<In, Out>) => (a: In, b: In) => isEqualByD(a, b, mapper)
 
 /**
  * DC = Deep Curried
@@ -16,7 +14,7 @@ export const isEqualDC = <U>(a: U) => (b: U) => equals(a, b)
 /**
  * SC = Shallow Curried
  */
-export const isEqualSC = eq
+export const isEqualSC = equals
 
 /**
  * D = Deep

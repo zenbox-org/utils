@@ -1,12 +1,14 @@
 import { purry } from 'remeda'
-import { BasicArithmetic, getBasicValidations, getTernaryComparisons } from '../arithmetic'
-import { getBasicAssertions, getTernaryAssertions } from '../arithmetic/getAssertions'
+import { BasicArithmetic } from '../arithmetic'
 import { sqrtNewton } from './sqrtNewton'
 
 export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   zero: BigInt(0),
   one: BigInt(1),
-  num(a) {
+  fromNumber(a) {
+    return BigInt(a)
+  },
+  fromString(a) {
     return BigInt(a)
   },
   add() {
@@ -52,19 +54,4 @@ export const BigIntBasicArithmetic: BasicArithmetic<bigint> = {
   },
 }
 
-export const { zero, one, num, add, sub, mul, div, mod, min, max, abs, sqrt, eq, lt, gt, lte, gte } = BigIntBasicArithmetic
-
-export const BigIntBasicValidations = getBasicValidations(BigIntBasicArithmetic)
-
-export const BigIntBasicAssertions = getBasicAssertions(BigIntBasicArithmetic)
-
-export const BigIntTernaryComparisons = getTernaryComparisons(BigIntBasicArithmetic)
-
-export const BigIntTernaryAssertions = getTernaryAssertions(BigIntTernaryComparisons)
-
-export const BigIntAllAssertions = {
-  ...BigIntBasicAssertions,
-  ...BigIntTernaryAssertions,
-}
-
-export const assert = BigIntAllAssertions
+export const { zero, one, fromNumber, fromString, add, sub, mul, div, mod, min, max, abs, sqrt, eq, lt, gt, lte, gte } = BigIntBasicArithmetic

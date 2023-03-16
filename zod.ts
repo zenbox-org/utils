@@ -1,9 +1,9 @@
 import { difference, equals, isFunction } from 'remeda'
 import { RefinementCtx, SafeParseReturnType, z, ZodArray, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef } from 'zod'
+import { ArrayCardinality } from 'zod/lib/types'
 import { ensure } from './ensure'
 import { isEqualByD } from './lodash'
 import { byUid, Uid } from './uid'
-import { ArrayCardinality } from 'zod/lib/types'
 
 export interface ZodFlatError {
   formErrors: string[];
@@ -31,7 +31,7 @@ export interface Stat {
 
 export type GetUniqueValue<Obj> = (object: Obj) => unknown
 
-function getSchemaDescription<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodType<Output, Def, Input>) {
+export function getSchemaDescription<Output, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodType<Output, Def, Input>) {
   return ensure(schema.description, () => {
     let schemaIdentifier: string
     // console.log('schema', stringify(schema))
