@@ -33,6 +33,8 @@ export class ImplementationError extends Error {
 
 }
 
+export interface Todo {}
+
 export interface Stub {}
 
 export const manually = impl
