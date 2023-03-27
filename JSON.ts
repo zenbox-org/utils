@@ -1,6 +1,6 @@
 import { ensureError } from './ensure'
 import { WrappedError } from './error'
-import { Result } from './result'
+import { Result } from './Result'
 
 export function safeParseJSON(input: string): Result<unknown, Error> {
   try {
