@@ -1,6 +1,5 @@
 import { isDefined } from 'remeda'
 import { BasicArithmetic, BooleanBinaryOperation } from '../arithmetic'
-import { BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
 
 export const findIndexByOp = <N>(op: BooleanBinaryOperation<N>) => (values: N[]) => {
   for (let i = 1; i < values.length; i++) {
@@ -24,5 +23,3 @@ export const getArrayComparisons = <N>(arithmetic: BasicArithmetic<N>) => ({
   isAscendingStrict: isAscendingStrict(arithmetic),
   isDescendingStrict: isDescendingStrict(arithmetic),
 })
-
-export const BigIntArrayComparisons = getArrayComparisons(BigIntBasicArithmetic)

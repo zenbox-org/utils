@@ -7,6 +7,11 @@ export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], ma
   return Promise.all(values.map(value => mapper(value, ...args)))
 }
 
+export async function flatMapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out[]>, ...args: Args) {
+  const results = await mapAsync(values, mapper, ...args)
+  return flatten(results)
+}
+
 export async function mapIndexAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, index: number, ...args: Args) => Promise<Out>, ...args: Args) {
   return Promise.all(values.map((value, index) => mapper(value, index, ...args)))
 }

@@ -27,6 +27,14 @@ export interface BasicType<N> {
   one: N
 }
 
+export interface BasicComparators<N> {
+  eq: BooleanBinaryOperation<N>
+  lt: BooleanBinaryOperation<N>
+  gt: BooleanBinaryOperation<N>
+  lte: BooleanBinaryOperation<N>
+  gte: BooleanBinaryOperation<N>
+}
+
 export interface ConversionsFrom<N> {
   fromNumber: (v: number) => N
   fromString: (v: string) => N
@@ -59,16 +67,11 @@ export interface HeteroComparators<A, B> {
 /**
  * use purry() to implement functions that support currying
  */
-export interface BasicArithmetic<N> extends BasicType<N>, ConversionsFrom<N>, HomoBasicOperations<N> {
+export interface BasicArithmetic<N> extends BasicType<N>, BasicComparators<N>, ConversionsFrom<N>, HomoBasicOperations<N> {
   min: AutoBinaryOperation<N> // TODO: define in terms of lt
   max: AutoBinaryOperation<N> // TODO: define in terms of gt
   abs: AutoUnaryOperation<N>
   sqrt: AutoUnaryOperation<N>
-  eq: BooleanBinaryOperation<N>
-  lt: BooleanBinaryOperation<N>
-  gt: BooleanBinaryOperation<N>
-  lte: BooleanBinaryOperation<N>
-  gte: BooleanBinaryOperation<N>
 }
 
 export interface WithTernaryComparisons<N> {

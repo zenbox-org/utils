@@ -8,6 +8,7 @@ export async function parseCSV<T = unknown>(contents: string, config: ParseConfi
   const result = await parseOriginal<T>(contents.trim(), {
     header: true,
     transformHeader: camelCase,
+    delimiter: ',',
     ...config,
   })
   assertEq(result.errors, [], 'result.errors', '[]')

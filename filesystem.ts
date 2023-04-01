@@ -19,6 +19,10 @@ export async function readFilesAsString(dir: Dirname) {
   return Promise.all(filenames.map(file => readFileAsString(`${dir}/${file}`)))
 }
 
+export async function readdirWithoutDotFiles(dir: Dirname) {
+  return (await readdir(dir)).filter(name => !name.startsWith('.'))
+}
+
 export function getHumanName(filename: string) {
   return basename(filename).split('.')[0]
 }
