@@ -7,6 +7,13 @@ export function todo<V>(value?: V, message = 'TODO'): V {
 }
 
 /**
+ * Used for marking incomplete data
+ */
+export function incomplete<V>(value: V) {
+  return value
+}
+
+/**
  * @deprecated use todo()
  */
 export function stub<V>(message = 'Implement stub'): V {

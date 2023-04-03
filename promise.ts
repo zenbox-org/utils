@@ -1,6 +1,8 @@
 import { flatten, identity, last, range } from 'remeda'
+import { Mapper } from '../generic/models/Mapper'
 import { Mutator, MutatorV, MutatorVP } from '../generic/models/Mutator'
 import { NonEmptyArray } from './array/ensureNonEmptyArray'
+import { ResultsAccumulator } from './ResultsAccumulator'
 import { AlwaysTrueTypeGuard } from './typescript'
 
 export async function mapAsync<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
@@ -38,6 +40,10 @@ export async function parallelFlatMap<In, Out, Args extends unknown[]>(values: I
   return flatten(resultsArray)
 }
 
+export async function allFlat<In, Out, Args extends unknown[]>(values: Promise<In>[]) {
+  return flatten(await Promise.all(values))
+}
+
 export async function parallelMapIndex<In, Out, Args extends unknown[]>(values: In[], mapper: (value: In, index: number, ...args: Args) => Promise<Out>, ...args: Args) {
   return parallel(values.map((value, index) => mapper(value, index, ...args)))
 }
@@ -53,6 +59,18 @@ export async function sequentialMap<In, Out, Args extends unknown[]>(values: In[
     results.push(await mapper(value, ...args))
   }
   return results
+}
+
+export const mapMaybeIntoAccumulator = <A, B>(mapper: Mapper<A, B | undefined>) => (values: A[]) => {
+  return values.reduce<ResultsAccumulator<B, A>>(function (accumulator, value) {
+    const result = mapper(value)
+    if (result) {
+      accumulator.successes.push(result)
+    } else {
+      accumulator.failures.push(value)
+    }
+    return accumulator
+  }, { successes: [], failures: [] })
 }
 
 export async function sequentialMapAsyncGen<In, Out, Args extends unknown[]>(values: AsyncGenerator<In>, mapper: (value: In, ...args: Args) => Promise<Out>, ...args: Args) {
