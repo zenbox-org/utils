@@ -6,18 +6,15 @@ export function todo<V>(value?: V, message = 'TODO'): V {
   return value
 }
 
-/**
- * Used for marking incomplete data
- */
-export function incomplete<V>(value: V) {
-  return value
+export function stub<V>(message = 'Implement stub'): V {
+  throw impl(message)
 }
 
 /**
- * @deprecated use todo()
+ * Used for marking incomplete data (which must be expanded instead of replaced, so can't be marked with todo())
  */
-export function stub<V>(message = 'Implement stub'): V {
-  throw impl(message)
+export function incomplete<V>(value: V) {
+  return value
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
