@@ -1,26 +1,35 @@
-export function duration(length: number, unit: string) {
+export function duration(count: number, unit: string) {
   switch (unit) {
+    case 'w':
+    case 'week':
+    case 'weeks':
+      return count * weeks
     case 'd':
     case 'day':
     case 'days':
-      return length * 60 * 60 * 24
+      return count * days
     case 'h':
     case 'hr':
     case 'hrs':
     case 'hour':
     case 'hours':
-      return length * 60 * 60
+      return count * hours
     case 'm':
     case 'min':
     case 'mins':
     case 'minute':
     case 'minutes':
-      return length * 60
+      return count * minutes
     case 's':
     case 'sec':
     case 'second':
     case 'seconds':
-      return length
+      return count * seconds
+    case 'ms':
+    case 'msec':
+    case 'millisecond':
+    case 'milliseconds':
+      return count * milliseconds
     default:
       throw new Error(`Unknown unit: ${unit}`)
   }
