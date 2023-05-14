@@ -4,12 +4,12 @@ import { readFile } from 'fs/promises'
 import { merge } from 'lodash-es'
 import ProcessEnv = NodeJS.ProcessEnv
 
-export type Env = Record<string, string>
+export type Env = Record<string, string | undefined> & ProcessEnv
 
 /**
  * NOTE: This function updates process.env
  */
-export async function loadEnv() {
+export async function loadEnv(): Promise<Env> {
   const cwd = process.cwd()
   const configs = await Promise.all([
     getEnvFromFileMaybe(`${cwd}/.env`),
