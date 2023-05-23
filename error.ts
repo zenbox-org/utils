@@ -49,6 +49,12 @@ export class InfoError<T> extends Error {
   }
 }
 
+export class ErrorWithDescription extends Error {
+  constructor(public message: string, public description: string) {
+    super(message)
+  }
+}
+
 export class IndexedError<Val, Err extends Error> extends Error {
   constructor(public value: Val, public index: number, public error: Err) {
     super(`At index ${index} for ${getMoniker(value)}: ${error.toString()}`)
