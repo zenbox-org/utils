@@ -22,17 +22,11 @@ export type AutoBinaryOperation<T> = BinaryOperation<T, T, T>
 
 export type BooleanBinaryOperation<T> = BinaryOperation<T, T, boolean>
 
+export type PartialBooleanBinaryOperation<T> = BinaryOperation<T, T, boolean | undefined>
+
 export interface BasicType<N> {
   zero: N
   one: N
-}
-
-export interface BasicComparators<N> {
-  eq: BooleanBinaryOperation<N>
-  lt: BooleanBinaryOperation<N>
-  gt: BooleanBinaryOperation<N>
-  lte: BooleanBinaryOperation<N>
-  gte: BooleanBinaryOperation<N>
 }
 
 export interface ConversionsFrom<N> {
@@ -46,6 +40,22 @@ export interface HomoBasicOperations<N> {
   mul: AutoBinaryOperation<N>
   div: AutoBinaryOperation<N>
   mod: AutoBinaryOperation<N>
+}
+
+export interface HomoBasicComparators<N> {
+  eq: BooleanBinaryOperation<N>
+  lt: BooleanBinaryOperation<N>
+  gt: BooleanBinaryOperation<N>
+  lte: BooleanBinaryOperation<N>
+  gte: BooleanBinaryOperation<N>
+}
+
+export interface PartialOrder<N> {
+  eq: PartialBooleanBinaryOperation<N>
+  lt: PartialBooleanBinaryOperation<N>
+  gt: PartialBooleanBinaryOperation<N>
+  lte: PartialBooleanBinaryOperation<N>
+  gte: PartialBooleanBinaryOperation<N>
 }
 
 export interface HeteroBasicOperations<A, B, Out> {
@@ -67,7 +77,7 @@ export interface HeteroComparators<A, B> {
 /**
  * use purry() to implement functions that support currying
  */
-export interface BasicArithmetic<N> extends BasicType<N>, BasicComparators<N>, ConversionsFrom<N>, HomoBasicOperations<N> {
+export interface BasicArithmetic<N> extends BasicType<N>, HomoBasicComparators<N>, ConversionsFrom<N>, HomoBasicOperations<N> {
   min: AutoBinaryOperation<N> // TODO: define in terms of lt
   max: AutoBinaryOperation<N> // TODO: define in terms of gt
   abs: AutoUnaryOperation<N>

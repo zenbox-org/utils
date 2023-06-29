@@ -9,7 +9,7 @@ export const QuotientBigNatSchema = z.object({
   denominator: BigNatSchema,
 })
   .refine(({ numerator, denominator }) => numerator <= denominator, 'assert(numerator <= denominator)')
-  .describe('QuotientBigInt')
+  .describe('QuotientBigNat')
 
 export const QuotientBigNatUidSchema = QuotientBigNatSchema
 

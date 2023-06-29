@@ -2,7 +2,7 @@ import { BigNumber } from 'bignumber.js'
 import { purry } from 'remeda'
 import { BasicArithmetic } from '../arithmetic'
 
-export const BigNumberArithmetic: BasicArithmetic<BigNumber> = {
+export const BigNumberBasicArithmetic: BasicArithmetic<BigNumber> = {
   zero: new BigNumber(0),
   one: new BigNumber(1),
   fromNumber(a) {
@@ -55,3 +55,5 @@ export const BigNumberArithmetic: BasicArithmetic<BigNumber> = {
     return purry((a: BigNumber, b: BigNumber) => a.gte(b), arguments)
   },
 }
+
+export const { zero, one, fromNumber, fromString, add, sub, mul, div, mod, min, max, abs, sqrt, eq, lt, gt, lte, gte } = BigNumberBasicArithmetic
