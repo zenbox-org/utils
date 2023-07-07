@@ -22,8 +22,31 @@ export const oneToMany = <Database, Parent, Child, ParentId, ChildId>($parent: s
   }
 }
 
+export const oneToManyArray = <Database, Parent, Child, ParentId, ChildId>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getParentId: Mapper<Parent, ParentId>, getChildId: Mapper<Child, ChildId>, getChildParentIds: Mapper<Child, ParentId[]>): SuperRefinement<Database> => (database, ctx) => {
+  const parents = getParents(database)
+  const children = getChildren(database)
+  for (const child of children) {
+    const parentIdsAll = getChildParentIds(child)
+    const parentIdsWithoutParent = parentIdsAll.filter(parentId => !parents.find(p => getParentId(p) === parentId))
+    if (parentIdsWithoutParent.length) {
+      ctx.addIssue({
+        code: ZodIssueCode.custom,
+        message: `${$child} #${getChildId(child)} is linked to ${$parent} ${parentIdsWithoutParent.map(parentId => `#${parentId}`)}, but these parents do not exist`,
+        params: {
+          child,
+          parentIdsWithoutParent,
+        },
+      })
+    }
+  }
+}
+
 export const oneToManyWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentId: Mapper<Child, Id>): SuperRefinement<Database> => (database, ctx) => {
   return oneToMany($parent, $child, getParents, getChildren, getId, getId, getChildParentId)
+}
+
+export const oneToManyArrayWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentIds: Mapper<Child, Id[]>): SuperRefinement<Database> => (database, ctx) => {
+  return oneToManyArray($parent, $child, getParents, getChildren, getId, getId, getChildParentIds)
 }
 
 export const oneToManySimple = <Val, Id>($source: string, $target: string, getSourceIds: (value: Val) => Id[], getTargetIds: (value: Val) => Id[]): SuperRefinement<Val> => (value, ctx) => {
