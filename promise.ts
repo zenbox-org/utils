@@ -184,3 +184,13 @@ export const rethrowErrors = <Err>(isError: (e: unknown) => e is Err) => <T>(res
 }
 
 export const rethrowAny = rethrowErrors(AlwaysTrueTypeGuard)
+
+/**
+ * Await promise resolution in the background without blocking
+ */
+export const toBackground = <T>(promise: Promise<T>): void => {}
+
+export const trap = <T>(promise: Promise<T>) => promise.catch((reason) => {
+  console.error(reason)
+  process.exit(1)
+})
