@@ -1,4 +1,6 @@
-export default {}
+const placeholder = {}
+
+export default placeholder
 
 // import { isEqualByDC } from 'libs/utils/lodash'
 // import { getArraySchema } from 'libs/utils/zod'
