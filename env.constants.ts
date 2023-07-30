@@ -1,6 +1,6 @@
-export const isServer = typeof window === 'undefined'
+export const isServer = typeof process !== 'undefined'
 
-export const isClient = typeof window !== 'undefined'
+export const isClient = typeof process === 'undefined'
 
 export const isProd = process.env.NODE_ENV === 'production'
 
