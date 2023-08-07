@@ -1,5 +1,5 @@
 import { AsyncCommand } from 'fast-check'
-import { expectEqualResults } from '../../chai/expectEqualResults'
+import { expectEqualResults } from '../../../chai/expectEqualResults'
 import { stringify } from '../../JSON'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
