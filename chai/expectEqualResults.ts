@@ -1,4 +1,4 @@
-import { expect } from '../chai'
+import { expect } from '../../chai/init'
 import { ImplementationError } from '../todo'
 
 /**

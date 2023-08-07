@@ -1,5 +1,5 @@
 import { test } from '@jest/globals'
-import { expect } from '../chai'
+import { expect } from '../../chai/init'
 import { roundDownBy } from './utils'
 
 test(roundDownBy.name, async function () {

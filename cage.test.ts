@@ -1,6 +1,6 @@
 import { test } from '@jest/globals'
+import { expect } from '../chai/init'
 import { uncage, uncageP } from './cage'
-import { expect } from './chai'
 
 test(uncage.name, () => {
   expect(uncage(1)).to.equal(1)

@@ -1,5 +1,5 @@
 import { test } from '@jest/globals'
-import { expect } from './chai'
+import { expect } from '../chai/init'
 import { nail, toString } from './string'
 
 test('nail', async function () {

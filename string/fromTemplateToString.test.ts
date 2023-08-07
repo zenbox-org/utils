@@ -1,4 +1,4 @@
-import { expect } from '../chai'
+import { expect } from '../../chai/init'
 import { fromTemplateToString } from './fromTemplateToString'
 
 test(fromTemplateToString.name, () => {
