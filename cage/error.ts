@@ -1,4 +1,4 @@
-import { isFunction, isString } from 'lodash-es'
+import { isFunction, isString } from 'remeda'
 import { Cage, CageP } from '../cage'
 
 export type ErrorCage = string | Cage<Error>

@@ -1,7 +1,8 @@
-import { camelCase } from 'lodash-es'
 import papaparse, { ParseConfig } from 'papaparse'
+import voca from 'voca'
 import { assertEq } from './assert'
 
+const { camelCase } = voca
 const { parse: parseOriginal } = papaparse
 
 export async function parseCSV<T = unknown>(contents: string, config: ParseConfig<T> = {}) {

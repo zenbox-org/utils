@@ -1,4 +1,6 @@
-import { capitalize, snakeCase } from 'lodash-es'
+import voca from 'voca'
+
+const { capitalize, snakeCase } = voca
 
 /**
  * Assuming the function name start with a verb

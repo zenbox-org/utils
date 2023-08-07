@@ -1,5 +1,5 @@
 import { Coda as CodaAPI } from 'coda-js'
-import { keyBy } from 'lodash-es'
+import { keyBy } from 'remeda'
 
 export class Coda {
   constructor(token) {

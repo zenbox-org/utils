@@ -1,5 +1,3 @@
-import { find } from 'lodash-es'
-
 export interface Check {
   name: string,
   value: boolean
@@ -8,7 +6,7 @@ export interface Check {
 
 export function includes(checks: Check[], names: string[]) {
   for (const name of names) {
-    const check = find(checks, { name })
+    const check = checks.find(c => c.name === name)
     if (!check) throw new Error(`Check not found: "${name}"`)
     if (!check.value) return false
   }

@@ -1,5 +1,7 @@
-import { startCase } from 'lodash-es'
+import voca from 'voca'
+
+const { kebabCase, titleCase } = voca
 
 export function humanize(functionName: string) {
-  return startCase(functionName)
+  return titleCase(kebabCase(functionName)).replace(/-/g, ' ')
 }

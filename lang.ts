@@ -1,4 +1,4 @@
-import { last } from 'lodash-es'
+import { last } from 'remeda'
 
 /**
  * Compiled class name is different in dev & prod
