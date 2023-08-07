@@ -1,8 +1,8 @@
 import { DotenvParseOutput, parse } from 'dotenv'
 import { PathLike } from 'fs'
 import { readFile } from 'fs/promises'
-import { merge } from 'remeda'
 import * as process from 'process'
+import { merge } from 'remeda'
 import ProcessEnv = NodeJS.ProcessEnv
 
 export type Env = Record<string, string | undefined> & ProcessEnv
@@ -10,13 +10,17 @@ export type Env = Record<string, string | undefined> & ProcessEnv
 /**
  * NOTE: This function modifies process.env
  */
-export async function loadEnv(): Promise<void> {
-  const cwd = process.cwd()
-  const config = await getDotenvParseOutput(cwd)
+export async function updateProcessEnv(dir: string = process.cwd()): Promise<void> {
+  const config = await getEnvConfig(dir)
   Object.assign(process.env, config)
 }
 
-export async function getDotenvParseOutput(dir: string) {
+export async function getEnv(dir: string = process.cwd()): Promise<Env> {
+  const config = await getEnvConfig(dir)
+  return merge(config, process.env)
+}
+
+export async function getEnvConfig(dir: string) {
   const configs = await Promise.all([
     getEnvFromFileMaybe(`${dir}/.env`),
     getEnvFromFileMaybe(`${dir}/.env.development`),
