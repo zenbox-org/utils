@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import assert from 'assert'
+import { ok } from 'assert'
 import { z } from 'zod'
 import { mergeWithEffect, mergeWithEffects } from './mergeWithEffects'
 
@@ -8,7 +8,7 @@ test(mergeWithEffect.name, () => {
   const b = z.object({ surname: z.string() })
   const merged = mergeWithEffect(a, b)
   const result = merged.safeParse({ name: '', surname: '' })
-  assert(!result.success)
+  ok(!result.success)
   expect(result.error.errors.length).toEqual(1)
 })
 
@@ -17,6 +17,6 @@ test(mergeWithEffects.name, () => {
   const b = z.object({ surname: z.string() }).refine(({ surname }) => surname.length > 0)
   const merged = mergeWithEffects(a, b)
   const result = merged.safeParse({ name: '', surname: '' })
-  assert(!result.success)
+  ok(!result.success)
   expect(result.error.errors.length).toEqual(2)
 })

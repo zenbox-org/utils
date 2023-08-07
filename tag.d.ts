@@ -3,11 +3,12 @@
 // Using namespace here simply to show that external files
 // should NOT have access to OpaqueTagSymbol or OpaqueTag.
 // Put this in its own module, without the namespace
-namespace Tag {
-  declare const OpaqueTagSymbol: unique symbol
-  declare class OpaqueTag<S extends symbol> {
+declare namespace Tag {
+  const OpaqueTagSymbol: unique symbol
+
+  class OpaqueTag<S extends symbol> {
     private [OpaqueTagSymbol]: S
   }
 
-  export type Opaque<T, S extends symbol> = T & OpaqueTag<S>;
+  export type Opaque<T, S extends symbol> = T & OpaqueTag<S>
 }
