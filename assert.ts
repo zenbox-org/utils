@@ -60,11 +60,11 @@ export const assertTwo = <A, B = A>(filter: (a: A, b: B) => boolean, $filter = f
 }
 
 export const getErrorOne = <A>(filter: (a: A) => boolean, $filter = filter.name): GetErrorUnary<A> => (a: A, $a = `${a}`, context?: Record<string, unknown>, $message?: string) => {
-  if (!filter(a)) return new Error(getMessage($filter, [a], [$a], $message, context))
+  return filter(a) ? undefined : new Error(getMessage($filter, [a], [$a], $message, context))
 }
 
 export const getErrorTwo = <A, B = A>(filter: (a: A, b: B) => boolean, $filter = filter.name): GetErrorBinary<A, B> => (a: A, b: B, $a = `${a}`, $b = `${b}`, context?: Record<string, unknown>, $message?: string) => {
-  if (!filter(a, b)) return new Error(getMessage($filter, [a, b], [$a, $b], $message, context))
+  return filter(a, b) ? undefined : new Error(getMessage($filter, [a, b], [$a, $b], $message, context))
 }
 
 export const refineOneR = <A>(filter: (a: A) => boolean, $filter = filter.name): RefineUnary<A> => (ctx: RefinementCtx) => (a: A, $a = `${a}`, context?: Record<string, unknown>, $message?: string) => {

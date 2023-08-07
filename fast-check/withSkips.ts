@@ -1,5 +1,5 @@
-import { AssertionFailedError } from '../error'
 import { pre } from 'fast-check'
+import { AssertionFailedError } from '../error'
 
 export function withSkips<Inputs extends unknown[], Output>(fn: (...inputs: Inputs) => Output) {
   return function (...inputs: Inputs) {
@@ -8,6 +8,7 @@ export function withSkips<Inputs extends unknown[], Output>(fn: (...inputs: Inpu
     } catch (e) {
       if (e instanceof AssertionFailedError) {
         pre(false) // skip the test
+        return undefined
       } else {
         throw e
       }

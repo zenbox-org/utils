@@ -7,6 +7,7 @@ export const findIndexByOp = <N>(op: BooleanBinaryOperation<N>) => (values: N[])
       return i
     }
   }
+  return undefined
 }
 
 export const isAscending = <N>(a: BasicArithmetic<N>) => (values: N[]) => !isDefined(findIndexByOp(a.gt)(values))

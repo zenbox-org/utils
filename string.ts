@@ -45,6 +45,7 @@ export function toStringMaybe(s: unknown) {
   if (typeof s === 'string') return s
   if (typeof s === 'bigint') return s.toString()
   if (typeof s === 'function') return s.toString()
+  return undefined
 }
 
 export function toString(value: unknown): string {
