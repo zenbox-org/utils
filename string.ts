@@ -1,5 +1,7 @@
+import { last } from 'remeda'
 import { callMB } from '../generic/models/Mapper/callMB'
 import { stringify } from './JSON'
+import { getDistances } from './number'
 
 export interface WithToString {
   toString: () => string
@@ -59,3 +61,48 @@ export const toStringA = (value: unknown[]) => value.map(toString)
 export function stripLineAndColumnNumber(pathRaw: string) {
   return pathRaw.replace(/(:\d+)*$/, '')
 }
+
+export function replaceAt(text: string, replacement: string, start: number, end: number) {
+  return text.substring(0, start) + replacement + text.substring(end)
+}
+
+interface Bounds {
+  start: number
+  end: number
+}
+
+export function splitAt(text: string, starts: number[]) {
+  const startLast = last(starts)
+  if (!startLast) return [text]
+  const splinters = starts.map((startNext, index) => {
+    const startPrev = index ? starts[index - 1] : 0
+    return text.substring(startPrev, startNext)
+  })
+  splinters.push(text.substring(startLast))
+  return splinters
+}
+
+export function replaceAtMulti(text: string, replacement: string, starts: number[], length: number) {
+  const distances = getDistances(starts)
+  const startLast = last(starts)
+  if (length < 1) throw new Error('The length must be greater or equal to 1')
+  if (distances.find(d => d < length)) throw new Error('Every distance between the starts must be greater than length')
+  if (!startLast) throw new Error('The starts array must contain at least one element')
+  const splinters = splitAt(text, starts)
+  const splintersReplaced = splinters.map((subtext, index) => {
+    return index ? replacement + subtext.slice(length) : subtext
+  })
+  return splintersReplaced.join('')
+}
+
+export const longestCommonPrefix = (strings: string[]) => {
+  // check border cases
+  if (strings.length === 0) { return '' }
+  if (strings.length === 1) { return strings[0] }
+  let i = 0
+  // while all words have the same character at position i, increment i
+  while (strings[0][i] && strings.every(w => w[i] === strings[0][i])) { i++ }
+  // prefix is the substring from the beginning to the last successfully checked i
+  return strings[0].substring(0, i)
+}
+
