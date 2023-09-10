@@ -1,6 +1,6 @@
 import { Parameters } from 'fast-check'
 import { CommandsContraints } from 'fast-check/lib/types/check/model/commands/CommandsContraints'
-import { fileExists } from '../filesystem'
+import { pathExists } from '../filesystem'
 import { fetchBooleanEnvVar, getBooleanEnvVar, getIntegerEnvVar } from '../process'
 
 export const REPLAY_PARAMETERS_PATH = `${process.cwd()}/replay.cjs`
@@ -46,7 +46,7 @@ export async function getCommandsConstraintsForReplay(overrides: CommandsContrai
 export async function getReplayParameters(): Promise<ReplayParameters> {
   const shouldReplay = fetchBooleanEnvVar('REPLAY', process.env.REPLAY)
   if (shouldReplay) {
-    if (await fileExists(REPLAY_PARAMETERS_PATH)) {
+    if (await pathExists(REPLAY_PARAMETERS_PATH)) {
       const parameters = await import(REPLAY_PARAMETERS_PATH)
       return { ...emptyReplayParameters, ...parameters.default }
     }

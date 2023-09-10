@@ -31,7 +31,7 @@ export function getRealName(filename: string) {
   return basename(filename).split('.').slice(0, -1).join('.')
 }
 
-export async function fileExists(path: PathLike) {
+export async function pathExists(path: PathLike) {
   return stat(path).then(stat => true).catch(e => {
     if (e.code === 'ENOENT') {
       return false
@@ -42,13 +42,13 @@ export async function fileExists(path: PathLike) {
 }
 
 export async function unlinkIfExists(path: PathLike) {
-  if (await fileExists(path)) {
+  if (await pathExists(path)) {
     return unlink(path)
   }
 }
 
 export async function mkdirIfNoxExists(folder: string) {
-  if (!await fileExists(folder)) {
+  if (!await pathExists(folder)) {
     await mkdir(folder, { recursive: true })
   }
 }
