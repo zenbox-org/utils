@@ -8,13 +8,13 @@ export const getUntilIsValid = <T>(max: number, isValid: (value: T) => Promise<b
   return getUntilIsValid(max - 1, isValid)(get)
 }
 
-export const getUntilValidate = <A, B>(max: number, validate: MapperP<A, B>) => async (get: () => Promise<A | undefined>): Promise<B | undefined> => {
+export const getUntilParse = <A, B>(max: number, parse: MapperP<A, B>) => async (get: () => Promise<A | undefined>): Promise<B | undefined> => {
   if (max <= 0) return
   try {
     const value = await get()
     if (value === undefined) return
-    return validate(value)
+    return parse(value)
   } catch (e) {
-    return getUntilValidate(max - 1, validate)(get)
+    return getUntilParse(max - 1, parse)(get)
   }
 }

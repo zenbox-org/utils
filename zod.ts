@@ -1,15 +1,15 @@
 import { difference, equals, isFunction } from 'remeda'
-import { RefinementCtx, SafeParseReturnType, z, ZodArray, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef } from 'zod'
+import { RefinementCtx, SafeParseReturnType, ZodArray, ZodError, ZodIssueCode, ZodSchema, ZodType, ZodTypeDef, z } from 'zod'
 import { ArrayCardinality } from 'zod/lib/types'
-import { ensure } from './ensure'
+import { ensure, ensureByIndex } from './ensure'
 import { isEqualByD } from './lodash'
-import { byUid, Uid } from './uid'
+import { Uid, byUid } from './uid'
 
 export interface ZodFlatError {
-  formErrors: string[];
+  formErrors: string[]
   fieldErrors: {
-    [k: string]: string[];
-  };
+    [k: string]: string[]
+  }
 }
 
 export type GetUid<UidHolder> = (holder: UidHolder) => Uid
@@ -89,8 +89,9 @@ export function getUniqueCountStats<Obj>(objects: Obj[], getUniqueValue: GetUniq
   return objects.reduce<Stat[]>((stats, value) => {
     const uid = getUniqueValue(value)
     const index = stats.findIndex(s => equals(s.uid, uid))
-    if (~index) {
-      stats[index].count++
+    const stat = stats[index]
+    if (stat) {
+      stat.count++
     } else {
       stats.push({ uid, count: 1 })
     }
@@ -136,8 +137,8 @@ export function getFinder<UidHolder, Output extends UidHolder>(getUid: GetUid<Ui
 
 export function getName<T>(schema: ZodSchema<T>) {
   const description = ensure(schema.description, new Error(`Cannot get schema name: ${JSON.stringify(schema)}`))
-  const [name] = description.split(' ')
-  return name
+  const splinters = description.split(' ')
+  return ensureByIndex(splinters, 0)
 }
 
 export const mustIncludeAllOf = <El>(required: El[]) => (elements: El[]) => difference(required, elements).length === 0

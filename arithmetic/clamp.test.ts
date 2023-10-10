@@ -1,5 +1,6 @@
 import { bigInt, tuple } from 'fast-check'
 import { BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
+import { ensureByIndex } from '../ensure'
 import { assertPD } from '../fast-check/assert'
 import { clamp } from './clamp'
 
@@ -16,7 +17,9 @@ test(clamp.name + 'Dynamic', async function () {
   const upperIncrementArb = bigInt({ min: 1n })
   const boundsArb = tuple(lowerArb, upperIncrementArb).map(([lower, upperIncrement]) => [lower, lower + upperIncrement])
   const valueArb = bigInt({ min: 0n })
-  return assertPD(boundsArb, valueArb, async ([lower, upper], value) => {
+  return assertPD(boundsArb, valueArb, async (bounds, value) => {
+    const lower = ensureByIndex(bounds, 0)
+    const upper = ensureByIndex(bounds, 1)
     const clampLocal = clamp(BigIntBasicArithmetic)(lower, upper)
     const valueClamped = clampLocal(value)
     expect(valueClamped).toBeGreaterThanOrEqual(lower)
