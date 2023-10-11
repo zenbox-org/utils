@@ -37,7 +37,7 @@ export class ImplementationError extends Error {
 
 }
 
-export interface Todo {}
+export type Todo = unknown
 
 export interface Stub {}
 
