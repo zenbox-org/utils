@@ -1,16 +1,12 @@
 import { BasicArithmetic } from '../arithmetic'
 
-export const add = <V>(arithmetic: BasicArithmetic<V>) => <K, V>(a: Map<K, V>, b: Map<K, V>) => {
-  const result = new Map<K, V>()
-  const allKeys = new Set([...a.keys(), ...b.keys()])
-  for (const key of allKeys) {
-    const aValue = a.get(key)
-    const bValue = b.get(key)
-    if (aValue !== undefined && bValue !== undefined) {
+export const add = <V>(arithmetic: BasicArithmetic<V>) => <K>(a: Map<K, V>, b: Map<K, V>) => {
+  const result = new Map<K, V>(a) // clone `a` to `result`
+  for (const [key, bValue] of b) {
+    const aValue = result.get(key)
+    if (aValue !== undefined) {
       result.set(key, arithmetic.add(aValue, bValue))
-    } else if (aValue !== undefined) {
-      result.set(key, aValue)
-    } else if (bValue !== undefined) {
+    } else {
       result.set(key, bValue)
     }
   }
