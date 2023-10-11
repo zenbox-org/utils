@@ -28,8 +28,8 @@ export const getArrayEnvVar = getEnvVar(string2array)
 
 export const getNonEmptyArrayStringEnvVar = (name: string, value: string | undefined, $default?: string[]): NonEmptyArray<string> => {
   const values = getArrayEnvVar(name, value, $default)
-  if (!values.length) throw new Error(`process.env.${name} must be a comma-separated list with at least one element`)
   const first = values[0]
   const rest = values.slice(1)
+  if (!first) throw new Error(`process.env.${name} must be a comma-separated list with at least one element`)
   return [first, ...rest]
 }

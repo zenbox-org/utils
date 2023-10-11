@@ -15,7 +15,7 @@ export type StringLike = string | WithToString
  */
 export function nail(str: string) {
   const spacesAtStart = str.match(/^\n(\s+)/)
-  if (spacesAtStart) {
+  if (spacesAtStart?.[1]) {
     return str.replace(new RegExp(`^[^\\S\r\n]{0,${spacesAtStart[1].length}}`, 'gm'), '')
   } else {
     return str
@@ -35,8 +35,11 @@ export function indent(count: number, str: string) {
 
 export function replaceInFirstLine(haystack: string, needle: string, replacement: string) {
   const lines = haystack.split('\n')
-  lines[0] = lines[0].replace(needle, replacement)
-  return lines.join('\n')
+  const [first, ...rest] = lines
+  return first ? [
+    first.replace(needle, replacement),
+    ...rest,
+  ].join('\n') : ''
 }
 
 export function getLines(text: string) {
@@ -75,7 +78,7 @@ export function splitAt(text: string, starts: number[]) {
   const startLast = last(starts)
   if (!startLast) return [text]
   const splinters = starts.map((startNext, index) => {
-    const startPrev = index ? starts[index - 1] : 0
+    const startPrev = starts[index - 1] || 0
     return text.substring(startPrev, startNext)
   })
   splinters.push(text.substring(startLast))
@@ -97,12 +100,14 @@ export function replaceAtMulti(text: string, replacement: string, starts: number
 
 export const longestCommonPrefix = (strings: string[]) => {
   // check border cases
-  if (strings.length === 0) { return '' }
-  if (strings.length === 1) { return strings[0] }
+  const first = strings[0]
+  const second = strings[1]
+  if (!first) return ''
+  if (first && !second) return first
   let i = 0
   // while all words have the same character at position i, increment i
-  while (strings[0][i] && strings.every(w => w[i] === strings[0][i])) { i++ }
+  while (first[i] && strings.every(w => w[i] === first[i])) { i++ }
   // prefix is the substring from the beginning to the last successfully checked i
-  return strings[0].substring(0, i)
+  return first.substring(0, i)
 }
 

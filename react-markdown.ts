@@ -14,7 +14,7 @@ export const transformLinkUri = (protocols: string[]) => (uri: string) => {
   let index = -1
 
   while (++index < protocols.length) {
-    const protocol = protocols[index]
+    const protocol = protocols[index]!
 
     if (
       colon === protocol.length &&

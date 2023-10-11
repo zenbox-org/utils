@@ -3,7 +3,9 @@ import { BasicArithmetic, BooleanBinaryOperation } from '../arithmetic'
 
 export const findIndexByOp = <N>(op: BooleanBinaryOperation<N>) => (values: N[]) => {
   for (let i = 1; i < values.length; i++) {
-    if (op(values[i - 1], values[i])) {
+    const prev = values[i - 1]
+    const curr = values[i]
+    if (isDefined(prev) && isDefined(curr) && op(prev, curr)) {
       return i
     }
   }
