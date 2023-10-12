@@ -24,6 +24,10 @@ export type BooleanBinaryOperation<T> = BinaryOperation<T, T, boolean>
 
 export type PartialBooleanBinaryOperation<T> = BinaryOperation<T, T, boolean | undefined>
 
+export type Predicate<T> = UnaryOperation<T, boolean>
+
+export type Relation<T> = BinaryOperation<T, T, boolean>
+
 export interface BasicType<N> {
   zero: N
   one: N
