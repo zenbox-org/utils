@@ -15,6 +15,13 @@ export async function updateProcessEnv(dir: string = process.cwd()): Promise<voi
   Object.assign(process.env, config)
 }
 
+/**
+ * We have to use process.env because Next.js rewrites exact strings that start with `process.env`
+ */
+export async function hackProcessEnv(env: Env) {
+  Object.assign(process.env, env)
+}
+
 export async function getEnv(dir: string = process.cwd()): Promise<Env> {
   const config = await getEnvConfig(dir)
   return merge(config, process.env)
