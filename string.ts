@@ -22,11 +22,15 @@ export function nail(str: string) {
   }
 }
 
+export const nailTo = (count: number) => (str: string) => indent(count, nail(str))
+
 export const nailMB = callMB(nail)
 
 export function adjust(str: string) {
   return nail(str).trim()
 }
+
+export const adjustTo = (count: number) => (str: string) => indent(count, adjust(str))
 
 export function indent(count: number, str: string) {
   const padding = ' '.repeat(count)
@@ -110,4 +114,3 @@ export const longestCommonPrefix = (strings: string[]) => {
   // prefix is the substring from the beginning to the last successfully checked i
   return first.substring(0, i)
 }
-
