@@ -1,4 +1,5 @@
 import { last } from 'remeda'
+import { Mapper } from '../generic/models/Mapper'
 import { callMB } from '../generic/models/Mapper/callMB'
 import { stringify } from './JSON'
 import { getDistances } from './number'
@@ -6,6 +7,8 @@ import { getDistances } from './number'
 export interface WithToString {
   toString: () => string
 }
+
+export type ToString<Val> = Mapper<Val, string>
 
 export type StringLike = string | WithToString
 
