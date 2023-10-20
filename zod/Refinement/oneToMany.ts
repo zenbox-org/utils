@@ -46,11 +46,11 @@ export const oneToManyArray = <Database, Parent, Child, ParentId, ChildId>($pare
   }
 }
 
-export const oneToManyWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentId: Mapper<Child, Id>): SuperRefinement<Database> => (database, ctx) => {
+export const oneToManyWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentId: Mapper<Child, Id>): SuperRefinement<Database> => {
   return oneToMany($parent, $child, getParents, getChildren, getId, getId, getChildParentId)
 }
 
-export const oneToManyArrayWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentIds: Mapper<Child, Id[]>): SuperRefinement<Database> => (database, ctx) => {
+export const oneToManyArrayWithId = <Database, Parent extends { id: Id }, Child extends { id: Id }>($parent: string, $child: string, getParents: Mapper<Database, Parent[]>, getChildren: Mapper<Database, Child[]>, getChildParentIds: Mapper<Child, Id[]>): SuperRefinement<Database> => {
   return oneToManyArray($parent, $child, getParents, getChildren, getId, getId, getChildParentIds)
 }
 
