@@ -3,7 +3,7 @@ import { clamp, clampIn } from './arithmetic/clamp'
 import { getDeltas } from './arithmetic/getDeltas'
 import { getShare } from './arithmetic/getShare'
 import { halve } from './arithmetic/halve'
-import { sum, sumAmounts } from './arithmetic/sum'
+import { sum, sumAmounts, sumMap } from './arithmetic/sum'
 import { getQuotientOf } from './Quotient/getQuotientOf'
 
 export type UnaryOperation<A, Out> = (a: A) => Out
@@ -104,6 +104,7 @@ export const getTernaryComparisons = <N>(arithmetic: BasicArithmetic<N>) => {
 export const getAdvancedOperations = <N>(arithmetic: BasicArithmetic<N>) => {
   return {
     sum: sum(arithmetic),
+    sumMap: sumMap(arithmetic),
     sumAmounts: sumAmounts(arithmetic),
     halve: halve(arithmetic),
     clamp: clamp(arithmetic),

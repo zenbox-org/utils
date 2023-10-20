@@ -1,6 +1,6 @@
 import { flatten, identity, last, range } from 'remeda'
 import { Mapper } from '../generic/models/Mapper'
-import { Mutator, MutatorV, MutatorVP } from '../generic/models/Mutator'
+import { Modifier, ModifierP, ModifierV, ModifierVP } from '../generic/models/Modifier'
 import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { ResultsAccumulator } from './ResultsAccumulator'
 import { AlwaysTrueTypeGuard } from './typescript'
@@ -89,43 +89,49 @@ export async function parallelMapAsyncGen<In, Out, Args extends unknown[]>(value
   return parallel(promises)
 }
 
-export const sequentialReduce = <Val>(mutators: Mutator<Val>[]) => (value: Val) => {
-  return mutators.reduce((value, mutator) => mutator(value), value)
+export const sequentialReduce = <Val>(modifiers: Modifier<Val>[]) => (value: Val) => {
+  return modifiers.reduce((value, modifier) => modifier(value), value)
 }
 
 export const chain = sequentialReduce
 
 /**
- * Map multiple mutators over a single value
+ * Map multiple modifiers over a single value
  * V = Variadic
  */
-export const sequentialReduceV = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
-  return mutators.reduce<Val>(($value, mutator) => {
-    return mutator($value, ...args)
+export const sequentialReduceV = <Val, Args extends unknown[]>(modifiers: ModifierV<Val, Args>[], ...args: Args) => (value: Val) => {
+  return modifiers.reduce<Val>(($value, modifier) => {
+    return modifier($value, ...args)
   }, value)
 }
 
-export const sequentialReducePushV = <Val, Args extends unknown[]>(mutators: MutatorV<Val, Args>[], ...args: Args) => (value: Val) => {
+export const sequentialReducePushV = <Val, Args extends unknown[]>(modifiers: ModifierV<Val, Args>[], ...args: Args) => (value: Val) => {
   const initial: NonEmptyArray<Val> = [value]
-  return mutators.reduce<NonEmptyArray<Val>>((values: NonEmptyArray<Val>, mutator): NonEmptyArray<Val> => {
-    return [...values, mutator(last(values), ...args)]
+  return modifiers.reduce<NonEmptyArray<Val>>((values: NonEmptyArray<Val>, modifier): NonEmptyArray<Val> => {
+    return [...values, modifier(last(values), ...args)]
   }, initial)
 }
 
-export const sequentialReduceP = <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (value: Val) => {
-  return mutators.reduce<Promise<Val>>(async ($value, mutator) => {
-    return mutator(await $value, ...args)
+export const sequentialReduceP = <Val>(modifiers: ModifierP<Val>[]) => async (value: Val) => {
+  return modifiers.reduce<Promise<Val>>(async ($value, modifier) => modifier(await $value), Promise.resolve(value))
+}
+
+export const pipeP = sequentialReduceP
+
+export const sequentialReduceVP = <Val, Args extends unknown[]>(modifiers: ModifierVP<Val, Args>[], ...args: Args) => async (value: Val) => {
+  return modifiers.reduce<Promise<Val>>(async ($value, modifier) => {
+    return modifier(await $value, ...args)
   }, Promise.resolve(value))
 }
 
-export const parSeqMapP = (isDepthFirst: boolean) => <Val, Args extends unknown[]>(mutators: MutatorVP<Val, Args>[], ...args: Args) => async (values: Val[]) => {
+export const parSeqMapVP = (isDepthFirst: boolean) => <Val, Args extends unknown[]>(modifiers: ModifierVP<Val, Args>[], ...args: Args) => async (values: Val[]) => {
   if (isDepthFirst) {
     return sequentialMap(values, value => {
-      return sequentialReduceP(mutators, ...args)(value)
+      return sequentialReduceVP(modifiers, ...args)(value)
     })
   } else {
-    return sequentialMap(mutators, mutator => {
-      return parallelMap(values, mutator, ...args)
+    return sequentialMap(modifiers, modifier => {
+      return parallelMap(values, modifier, ...args)
     })
   }
 }
