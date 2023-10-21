@@ -1,6 +1,6 @@
 import { flatten } from 'lodash-es'
-import { MapperErr } from '../../decimaker/models/MapperErr'
+import { Mapper } from '../../generic/models/Mapper'
 
-export function parseMany<Val, Err>(values: Val[], parseOne: MapperErr<Val, Err>, parseAll: MapperErr<Val[], Err>) {
+export function parseMany<Val, Err>(values: Val[], parseOne: Mapper<Val, Err[]>, parseAll: Mapper<Val[], Err[]>) {
   return flatten<Err>(values.map(parseOne)).concat(parseAll(values))
 }
