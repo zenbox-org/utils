@@ -1,6 +1,8 @@
 import { MapperP } from 'libs/generic/models/Mapper'
+import { theUndefinedError } from '../Error/UndefinedError'
+import { wrapError } from '../Error/WrappedError'
 import { GetterP } from '../Getter'
-import { ParserP } from '../Parser'
+import { Parser, ParserP } from '../Parser'
 
 export const maxDefault = 10
 
@@ -39,5 +41,13 @@ const mapDefined = <A, B>(map: MapperP<A, B>) => (value: A | undefined) => {
     throw new Error('Must be defined')
   } else {
     return map(value)
+  }
+}
+
+const parseIfDefined = <I, O, E>(parse: Parser<I, O, E>) => (input: I | undefined) => {
+  if (input === undefined) {
+    return { success: false, error: theUndefinedError }
+  } else {
+    return wrapError(parse(input))
   }
 }
