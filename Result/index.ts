@@ -1,6 +1,9 @@
-export interface ResultSuccess<Value> {
+/**
+ * Using "data" name for compatibility with Zod
+ */
+export interface ResultSuccess<Data> {
   success: true
-  value: Value
+  data: Data
 }
 
 export interface ResultFailure<Error> {

@@ -6,7 +6,7 @@ export function safeParseJSON(input: string): Result<unknown, Error> {
   try {
     return {
       success: true,
-      value: JSON.parse(input),
+      data: JSON.parse(input),
     }
   } catch (error) {
     return {
@@ -19,7 +19,7 @@ export function safeParseJSON(input: string): Result<unknown, Error> {
 export function parseJSON(input: string) {
   const result = safeParseJSON(input)
   if (result.success) {
-    return result.value
+    return result.data
   } else {
     throw new WrappedError('Could not parse JSON', { input }, result.error)
   }
