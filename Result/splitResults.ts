@@ -1,4 +1,5 @@
-import { isFailure, isSuccess, Result } from './index'
+import { Result } from './index'
+import { isFailure, isSuccess } from './predicates'
 
 export const splitResults = <Value, Error>(results: Result<Value, Error>[]) => {
   return {

@@ -11,8 +11,4 @@ export interface ResultFailure<Error> {
   error: Error
 }
 
-export type Result<Value, Error> = ResultSuccess<Value> | ResultFailure<Error>
-
-export const isSuccess = <Value, Error>(result: Result<Value, Error>): result is ResultSuccess<Value> => result.success
-
-export const isFailure = <Value, Error>(result: Result<Value, Error>): result is ResultFailure<Error> => !result.success
+export type Result<Data, Error> = ResultSuccess<Data> | ResultFailure<Error>

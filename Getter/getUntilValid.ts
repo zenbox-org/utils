@@ -1,12 +1,13 @@
-import { MapperP } from 'libs/generic/models/Mapper'
+import { MapperP, PredicateP } from 'libs/generic/models/Mapper'
 import { theUndefinedError } from '../Error/UndefinedError'
-import { wrapError } from '../Error/WrappedError'
 import { GetterP } from '../Getter'
 import { Parser, ParserP } from '../Parser'
+import { mapWrappedError } from '../Result/mapWrappedError'
+import { failure } from '../Result/utils'
 
 export const maxDefault = 10
 
-export const getUntilIsValid = <T>(get: GetterP<T>, isValid: (value: T) => Promise<boolean>) => async (max: number = maxDefault): Promise<T | undefined> => {
+export const getUntilIsValid = <T>(get: GetterP<T>, isValid: PredicateP<T>) => async (max: number = maxDefault): Promise<T | undefined> => {
   if (max <= 0) return
   const value = await get()
   if (await isValid(value)) return value
@@ -48,6 +49,14 @@ const parseIfDefined = <I, O, E>(parse: Parser<I, O, E>) => (input: I | undefine
   if (input === undefined) {
     return { success: false, error: theUndefinedError }
   } else {
-    return wrapError(parse(input))
+    return mapWrappedError(parse(input))
+  }
+}
+
+const parseIfDefinedP = <I, O, E>(parse: ParserP<I, O, E>) => async (input: I | undefined) => {
+  if (input === undefined) {
+    return failure(theUndefinedError)
+  } else {
+    return mapWrappedError(await parse(input))
   }
 }
