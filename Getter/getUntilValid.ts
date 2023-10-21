@@ -1,6 +1,6 @@
 import { MapperP } from 'libs/generic/models/Mapper'
-import { ParserP } from '../../decimaker/models/Parser'
 import { GetterP } from '../Getter'
+import { ParserP } from '../Parser'
 
 export const maxDefault = 10
 
