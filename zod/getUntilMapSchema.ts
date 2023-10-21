@@ -11,6 +11,3 @@ export const getUntilMapDefinedSchema = <Output = unknown, Def extends ZodTypeDe
   return getUntilMapDefined(get, parse)(max)
 }
 
-const getMapper = <Output = unknown, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodSchema<Output, Def, Input>) => (input: Input) => schema.parse(input)
-
-const getMapperP = <Output = unknown, Def extends ZodTypeDef = ZodTypeDef, Input = Output>(schema: ZodSchema<Output, Def, Input>) => (input: Input) => schema.parseAsync(input)
