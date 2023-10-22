@@ -1,4 +1,4 @@
-import { Mapper, MapperP, MapperTwoSym } from '../generic/models/Mapper'
+import { Mapper, MapperP, MapperTwoSym } from './Mapper'
 
 export type Asserter<Val> = Mapper<Val, void> // may throw an error
 

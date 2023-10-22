@@ -1,5 +1,5 @@
 import { equals } from 'remeda'
-import { FilterTwo } from '../../../generic/models/Filter'
+import { FilterTwo } from '../../Filter'
 import { ensureFind } from '../../ensure'
 
 interface ModelRealPair<M, R> {

@@ -1,4 +1,4 @@
-import { and } from '../generic/models/Filter'
+import { and } from './Filter'
 import { clamp, clampIn } from './arithmetic/clamp'
 import { getDeltas } from './arithmetic/getDeltas'
 import { getShare } from './arithmetic/getShare'

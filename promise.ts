@@ -1,7 +1,7 @@
 import { flatten, identity, last, range } from 'remeda'
-import { Mapper } from '../generic/models/Mapper'
-import { Modifier, ModifierP, ModifierV, ModifierVP } from '../generic/models/Modifier'
+import { Modifier, ModifierP, ModifierV, ModifierVP } from './Modifier'
 import { NonEmptyArray } from './array/ensureNonEmptyArray'
+import { Mapper } from './Mapper'
 import { ResultsAccumulator } from './ResultsAccumulator'
 import { AlwaysTrueTypeGuard } from './typescript'
 

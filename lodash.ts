@@ -1,5 +1,6 @@
 import { difference, equals } from 'remeda'
-import { Mapper } from '../generic/models/Mapper'
+import { Mapper } from './Mapper'
+
 import { GetUid } from './zod'
 
 export type IsEqual<U> = (a: U) => (b: U) => boolean

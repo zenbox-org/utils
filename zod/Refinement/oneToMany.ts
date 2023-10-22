@@ -2,7 +2,8 @@ import { difference, isDefined } from 'remeda'
 import { ZodIssueCode } from 'zod'
 import { SuperRefinement } from 'zod/lib/types'
 import { getId, Id, WithId } from '../../../generic/models/Id'
-import { Mapper } from '../../../generic/models/Mapper'
+import { Mapper } from '../../Mapper'
+
 import { parallelMap } from '../../promise'
 import { ToString } from '../../string'
 

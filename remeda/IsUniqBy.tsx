@@ -1,5 +1,5 @@
 import { uniq } from 'remeda'
-import { Mapper } from '../../generic/models/Mapper'
+import { Mapper } from '../Mapper'
 
 export const isUniqBy = <A, B>(getKey: Mapper<A, B>) => (array: A[]) => {
   const keysRaw = array.map(getKey)

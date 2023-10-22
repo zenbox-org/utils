@@ -1,6 +1,6 @@
 import { test } from '@jest/globals'
 import { expect } from '../../chai/init'
-import { Mapper } from '../../generic/models/Mapper'
+import { Mapper } from '../Mapper'
 
 export function testEqual<Val, Actual>(getter: () => Val, actual: Actual, mapper?: Mapper<Val, Actual>) {
   test(normalize(getter.name), function () {

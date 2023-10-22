@@ -1,4 +1,4 @@
-import { MapperP, PredicateP } from 'libs/generic/models/Mapper'
+import { MapperP, PredicateP } from 'libs/utils/Mapper'
 import { theUndefinedError } from '../Error/UndefinedError'
 import { GetterP } from '../Getter'
 import { Parser, ParserP } from '../Parser'

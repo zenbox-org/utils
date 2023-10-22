@@ -1,4 +1,4 @@
-import { Mapper } from '../../generic/models/Mapper'
+import { Mapper } from '../Mapper'
 import { Result } from './index'
 import { failure } from './utils'
 

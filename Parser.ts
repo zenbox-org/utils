@@ -1,5 +1,5 @@
 import { SafeParseReturnType } from 'zod/lib/types'
-import { Mapper, MapperP, MapperTwoSym } from '../generic/models/Mapper'
+import { Mapper, MapperP, MapperTwoSym } from './Mapper'
 import { Result } from './Result'
 
 export type Parser<In, Out, Err> = Mapper<In, Result<Out, Err>>

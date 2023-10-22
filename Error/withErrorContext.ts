@@ -1,7 +1,7 @@
-import { Mapper } from '../../generic/models/Mapper'
-import { Modifier } from '../../generic/models/Modifier'
-import { Runner } from '../../generic/models/Runner'
 import { stringify } from '../JSON'
+import { Mapper } from '../Mapper'
+import { Modifier } from '../Modifier'
+import { Runner } from '../Runner'
 
 export function withErrorContext<Out>(runner: Runner<void, Out>, mutatorOfCaughtValue: Modifier<unknown>) {
   try {

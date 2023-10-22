@@ -1,7 +1,7 @@
 import { last } from 'remeda'
-import { Mapper } from '../generic/models/Mapper'
-import { callMB } from '../generic/models/Mapper/callMB'
+import { callMB } from './Mapper/callMB'
 import { stringify } from './JSON'
+import { Mapper } from './Mapper'
 import { getDistances } from './number'
 
 export interface WithToString {

@@ -1,5 +1,5 @@
 import { equals, purry } from 'remeda'
-import { Mapper } from '../../generic/models/Mapper'
+import { Mapper } from '../Mapper'
 
 export function equalsBy<In, Out>(a: In, b: In, mapper: Mapper<In, Out>): boolean;
 

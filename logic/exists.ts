@@ -1,4 +1,4 @@
-import { Filter } from '../../generic/models/Filter'
+import { Filter } from '../Filter'
 
 /**
  * Can always be unfolded (= replaced with the predicate code where `value` is substituted with the actual value)

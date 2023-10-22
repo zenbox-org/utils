@@ -1,5 +1,5 @@
 import { createPipe, identity } from 'remeda'
-import { Modifier } from '../../generic/models/Modifier'
+import { Modifier } from '../Modifier'
 
 export const wrap = <Value>(pre: Modifier<Value> = identity, post: Modifier<Value> = identity) => (f: Modifier<Value>) => createPipe(pre, f, post)
 
