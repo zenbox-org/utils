@@ -1,62 +1,33 @@
-import { MapperP, PredicateP } from 'libs/utils/Mapper'
-import { theUndefinedError } from '../Error/UndefinedError'
 import { GetterP } from '../Getter'
-import { Parser, ParserP } from '../Parser'
-import { mapWrappedError } from '../Result/mapWrappedError'
-import { failure } from '../Result/utils'
+import { MapperP, PredicateP } from '../Mapper'
+import { ParserP } from '../Parser'
 
 export const maxDefault = 10
 
-export const getUntilIsValid = <T>(get: GetterP<T>, isValid: PredicateP<T>) => async (max: number = maxDefault): Promise<T | undefined> => {
+export const getUntilIsValidP = <T>(get: GetterP<T>, isValid: PredicateP<T>) => async (max: number = maxDefault): Promise<T | undefined> => {
   if (max <= 0) return
   const value = await get()
   if (await isValid(value)) return value
-  return getUntilIsValid(get, isValid)(max - 1)
+  return getUntilIsValidP(get, isValid)(max - 1)
 }
 
-export const getUntilParse = <In, Out, Err>(get: GetterP<In>, parse: ParserP<In, Out, Err>) => async (max: number): Promise<Out | undefined> => {
+export const getUntilParseP = <In, Out, Err>(get: GetterP<In>, parse: ParserP<In, Out, Err>) => async (max: number = maxDefault): Promise<Out | undefined> => {
   if (max <= 0) return
   const value = await get()
   const result = await parse(value)
   if (result.success) {
     return result.data
   } else {
-    return getUntilParse(get, parse)(max - 1)
+    return getUntilParseP(get, parse)(max - 1)
   }
 }
 
-export const getUntilMap = <A, B>(get: GetterP<A>, map: MapperP<A, B>) => async (max: number): Promise<B | undefined> => {
+export const getUntilMap = <A, B>(get: GetterP<A>, map: MapperP<A, B>) => async (max: number = maxDefault): Promise<B | undefined> => {
   if (max <= 0) return
   try {
     const value = await get()
     return map(value)
   } catch (e) {
     return getUntilMap(get, map)(max - 1)
-  }
-}
-
-export const getUntilMapDefined = <A, B>(get: GetterP<A | undefined>, parse: MapperP<A, B>) => getUntilMap(get, mapDefined(parse))
-
-const mapDefined = <A, B>(map: MapperP<A, B>) => (value: A | undefined) => {
-  if (value === undefined) {
-    throw new Error('Must be defined')
-  } else {
-    return map(value)
-  }
-}
-
-const parseIfDefined = <I, O, E>(parse: Parser<I, O, E>) => (input: I | undefined) => {
-  if (input === undefined) {
-    return { success: false, error: theUndefinedError }
-  } else {
-    return mapWrappedError(parse(input))
-  }
-}
-
-const parseIfDefinedP = <I, O, E>(parse: ParserP<I, O, E>) => async (input: I | undefined) => {
-  if (input === undefined) {
-    return failure(theUndefinedError)
-  } else {
-    return mapWrappedError(await parse(input))
   }
 }

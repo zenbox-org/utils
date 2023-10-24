@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { LocaleOptions } from 'luxon/src/datetime'
 import { day } from './duration'
 import { roundDownBy } from './number/utils'
 // import './luxon-business-days'
@@ -44,3 +45,7 @@ export const byDate = (a: WithDate, b: WithDate) => a.date.getTime() - b.date.ge
 export const toSecondsN = (timestamp: number) => Math.trunc(timestamp / 1000)
 
 export const toSeconds = (date: Date) => toSecondsN(date.getTime())
+
+export const format = (fmt: string, opts?: LocaleOptions) => (date: Date) => DateTime.fromJSDate(date).toFormat(fmt, opts)
+
+export const toISODate = (date: Date) => DateTime.fromJSDate(date).toISODate()
