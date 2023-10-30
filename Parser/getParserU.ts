@@ -1,9 +1,9 @@
-import { Parser, ParserP } from '../Parser'
-import { failure } from '../Result/utils'
 import { theUndefinedError, UndefinedError } from '../Error/UndefinedError'
-import { mapWrappedError } from '../Result/mapWrappedError'
-import { Result } from '../Result'
 import { WrappedError } from '../Error/WrappedError'
+import { Parser, ParserP } from '../Parser'
+import { Result } from '../Result'
+import { failure } from '../Result/constructors'
+import { mapWrappedError } from '../Result/mapWrappedError'
 
 export const getParserU = <I, O, E>(parse: Parser<I, O, E>) => (input: I | undefined) => {
   if (input === undefined) {
