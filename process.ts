@@ -1,7 +1,7 @@
 import { identity } from 'remeda'
-import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { string2array, string2boolean, string2integer } from './conversion'
 import { Mapper } from './Mapper'
+import { NonEmptyArray } from './NonEmptyArray'
 
 /**
  * Next.js inlines `process.env.VAR_NAME` during build, so they must be passed directly

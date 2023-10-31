@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import $debug from 'debug'
 import { isObject } from 'remeda'
-import { NonEmptyArray } from './array/ensureNonEmptyArray'
 import { getRealName } from './filesystem'
+import { NonEmptyArray } from './NonEmptyArray'
 import { getBooleanEnvVar } from './process'
 
 export const isLogEnabled = getBooleanEnvVar('LOG', process.env.LOG, false)

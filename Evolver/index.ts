@@ -1,4 +1,4 @@
-import { Mapper, MapperP } from './Mapper'
+import { Mapper, MapperP } from '../Mapper'
 
 export type Evolver<T> = Mapper<T, T>
 
