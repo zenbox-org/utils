@@ -4,6 +4,6 @@ export { addEffect } from './zod/addEffect'
 
 export { evolveTimes } from './Evolver/evolveTimes'
 
-export { TestFn } from './jest/TestFn'
+export { TestFn } from './jest/Global'
 
 export { firstNE } from './NonEmptyArray/utils'
