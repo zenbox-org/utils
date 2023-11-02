@@ -1,8 +1,9 @@
 import { RefinementCtx } from 'zod'
 import { RefineBinary, refineOne, refineOneR, refineTwo, refineTwoR, RefineUnary } from '../assert'
-import { getBasicChecks, getTernaryChecks, WithBasicChecks } from './getChecks'
+import { BasicChecks, getBasicChecks } from './getBasicChecks'
+import { getTernaryChecks } from './getTernaryChecks'
 
-export type WithBasicRefines<N> = WithBasicChecks<RefineUnary<N>, RefineBinary<N, N>, N>
+export type WithBasicRefines<N> = BasicChecks<RefineUnary<N>, RefineBinary<N, N>, N>
 
 export const getBasicRefinesR = getBasicChecks(refineOneR, refineTwoR)
 

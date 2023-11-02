@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import { array, double } from 'fast-check'
 import { equals, sort } from 'remeda'
 import { ascending, descending } from '../comparator'

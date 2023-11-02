@@ -1,4 +1,4 @@
-import { test } from '@jest/globals'
+import { describe, test } from '@jest/globals'
 import { expect } from '../chai/init'
 import { nail, replaceAt, replaceAtMulti, splitAt, toString } from './string'
 

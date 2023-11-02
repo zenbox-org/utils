@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import { bigInt, tuple } from 'fast-check'
 import { BigIntBasicArithmetic } from '../bigint/BigIntBasicArithmetic'
 import { ensureByIndex } from '../ensure'

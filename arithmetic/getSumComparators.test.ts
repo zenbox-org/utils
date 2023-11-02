@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals'
 import { NumberBasicArithmetic } from '../number/NumberBasicArithmetic'
 import { getQuotientBasicArithmetic } from '../Quotient/getQuotientBasicArithmetic'
 import { sumLteOne } from './getSumComparators'
