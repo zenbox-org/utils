@@ -24,8 +24,8 @@ function isGeneric(functionName: string | undefined) {
 }
 
 export interface ClearStackFrame {
-  functionName?: string
-  fileName?: string
-  lineNumber?: number
-  columnNumber?: number
+  functionName?: string | undefined
+  fileName?: string | undefined
+  lineNumber?: number | undefined
+  columnNumber?: number | undefined
 }

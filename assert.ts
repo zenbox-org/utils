@@ -2,8 +2,8 @@ import $assert from 'assert'
 import * as process from 'process'
 import { equals, identity } from 'remeda'
 import { RefinementCtx, ZodIssueCode } from 'zod'
-import { Filter, FilterTwo } from './Filter'
 import { isTrue } from './boolean'
+import { Filter, FilterTwo } from './Filter'
 import { fetchBooleanEnvVar } from './process'
 import { includes } from './remeda/includes'
 import { nequals } from './remeda/nequals'
@@ -68,11 +68,11 @@ export const getErrorTwo = <A, B = A>(filter: (a: A, b: B) => boolean, $filter =
 }
 
 export const refineOneR = <A>(filter: (a: A) => boolean, $filter = filter.name): RefineUnary<A> => (ctx: RefinementCtx) => (a: A, $a = `${a}`, context?: Record<string, unknown>, $message?: string) => {
-  if (!filter(a)) ctx.addIssue({ code: ZodIssueCode.custom, message: getMessage($filter, [a], [$a], $message), params: context })
+  if (!filter(a)) ctx.addIssue({ code: ZodIssueCode.custom, message: getMessage($filter, [a], [$a], $message), params: (context ?? {}) })
 }
 
 export const refineTwoR = <A, B = A>(filter: (a: A, b: B) => boolean, $filter = filter.name): RefineBinary<A, B> => (ctx: RefinementCtx) => (a: A, b: B, $a = `${a}`, $b = `${b}`, context?: Record<string, unknown>, $message?: string) => {
-  if (!filter(a, b)) ctx.addIssue({ code: ZodIssueCode.custom, message: getMessage($filter, [a, b], [$a, $b], $message), params: context })
+  if (!filter(a, b)) ctx.addIssue({ code: ZodIssueCode.custom, message: getMessage($filter, [a, b], [$a, $b], $message), params: (context ?? {}) })
 }
 
 export const refineOne = (ctx: RefinementCtx) => <A>(filter: (a: A) => boolean, $filter = filter.name) => refineOneR(filter, $filter)(ctx)
